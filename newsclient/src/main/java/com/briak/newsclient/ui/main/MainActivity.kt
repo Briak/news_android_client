@@ -1,7 +1,8 @@
-package com.briak.newsclient
+package com.briak.newsclient.ui.main
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.briak.newsclient.R
 
 class MainActivity : AppCompatActivity() {
 
