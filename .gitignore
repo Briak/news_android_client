@@ -53,6 +53,7 @@ captures/
 
 # Intellij
 .idea/
+.idea/*
 *.iml
 
 # Keystore files
