@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">NewsAndroidClient</string>
-    <string name="menu_news">новости</string>
+    <string name="menu_news">News</string>
     <string name="menu_starred">избранное</string>
     <string name="menu_settings">настройки</string>
+    <string name="news_detail">News detail</string>
 </resources>
