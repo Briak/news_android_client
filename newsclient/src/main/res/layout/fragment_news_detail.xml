@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/newsContainerView"
     style="@style/Background">
 
     <TextView
-        android:id="@+id/newsToolbar"
+        android:id="@+id/newsDetailToolbar"
         style="@style/ToolbarTheme"
-        android:text="@string/menu_news"
+        android:text="@string/news_detail"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/newsListView"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:text="NEWS DETAIL"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/newsToolbar" />
+        app:layout_constraintTop_toBottomOf="@id/newsDetailToolbar" />
 
 </android.support.constraint.ConstraintLayout>
