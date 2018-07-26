@@ -14,7 +14,7 @@ class NewsAdapter(private val list: List<NewsUIEntity>,
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.bind(list[position])
         holder.itemView.onClick {
-            listener.onNewsClick(list[position])
+            listener.onNewsClick(list[position].id)
         }
     }
 
@@ -38,6 +38,6 @@ class NewsAdapter(private val list: List<NewsUIEntity>,
     }
 
     interface OnNewsClickListener {
-        fun onNewsClick(news: NewsUIEntity)
+        fun onNewsClick(id: String)
     }
 }

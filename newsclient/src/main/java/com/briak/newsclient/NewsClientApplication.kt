@@ -1,26 +1,25 @@
 package com.briak.newsclient
 
 import android.app.Application
-import ru.terrakok.cicerone.Router
-import ru.terrakok.cicerone.NavigatorHolder
-import ru.terrakok.cicerone.Cicerone
-
-
+import com.briak.newsclient.model.di.*
 
 class NewsClientApplication : Application() {
-    private lateinit var cicerone: Cicerone<Router>
+    companion object {
+        lateinit var component: ApplicationComponent
+        lateinit var newsNavigationComponent: NewsNavigationComponent
+    }
 
     override fun onCreate() {
         super.onCreate()
 
-        initCicerone()
+        component = DaggerApplicationComponent
+                .builder()
+                .applicationModule(ApplicationModule(this))
+                .build()
+
+        newsNavigationComponent = DaggerNewsNavigationComponent
+                .builder()
+                .applicationComponent(component)
+                .build()
     }
-
-    private fun initCicerone() {
-        cicerone = Cicerone.create()
-    }
-
-    fun navigationHolder(): NavigatorHolder = cicerone.navigatorHolder
-
-    fun router(): Router = cicerone.router
 }
