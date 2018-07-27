@@ -27,6 +27,7 @@ class NewsFragment :
         NewsView,
         NewsAdapter.OnNewsClickListener,
         BackButtonListener {
+
     @InjectPresenter
     lateinit var presenter: NewsPresenter
 
@@ -66,6 +67,16 @@ class NewsFragment :
         super.onPause()
     }
 
+    override fun onBackPressed(): Boolean {
+        router.exit()
+
+        return true
+    }
+
+    override fun onNewsClick(id: String) {
+        presenter.onNewsClick(id)
+    }
+
     private fun getNavigator(): Navigator {
         return object : SupportFragmentNavigator(childFragmentManager, R.id.newsContainerView) {
             override fun exit() {
@@ -86,13 +97,4 @@ class NewsFragment :
         }
     }
 
-    override fun onBackPressed(): Boolean {
-        router.exit()
-
-        return true
-    }
-
-    override fun onNewsClick(id: String) {
-        presenter.onNewsClick(id)
-    }
 }
