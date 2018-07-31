@@ -16,11 +16,11 @@ import com.briak.newsclient.ui.base.BaseFragment
 import com.briak.newsclient.ui.main.MainActivity
 import com.briak.newsclient.ui.newsdetail.NewsDetailFragment
 import kotlinx.android.synthetic.main.fragment_news.*
-import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.android.SupportFragmentNavigator
+import javax.inject.Inject
 
 class NewsFragment :
         BaseFragment(),
@@ -31,20 +31,22 @@ class NewsFragment :
     @InjectPresenter
     lateinit var presenter: NewsPresenter
 
-    private var cicerone = Cicerone.create()
-    private var navigationHolder: NavigatorHolder = cicerone.navigatorHolder
-    private var router: Router = cicerone.router
+    @Inject
+    lateinit var newsNavigationHolder: NavigatorHolder
+
+    @Inject
+    lateinit var newsRouter: Router
 
     override val layoutRes: Int = R.layout.fragment_news
 
-    @ProvidePresenter
-    fun provideNewsPresenter(): NewsPresenter = NewsPresenter(router)
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
         NewsClientApplication.newsNavigationComponent.inject(this)
+
+        super.onCreate(savedInstanceState)
     }
+
+    @ProvidePresenter
+    fun provideNewsPresenter(): NewsPresenter = NewsPresenter(newsRouter)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,17 +60,17 @@ class NewsFragment :
     override fun onResume() {
         super.onResume()
 
-        navigationHolder.setNavigator(getNavigator())
+        newsNavigationHolder.setNavigator(getNavigator())
     }
 
     override fun onPause() {
-        navigationHolder.removeNavigator()
+        newsNavigationHolder.removeNavigator()
 
         super.onPause()
     }
 
     override fun onBackPressed(): Boolean {
-        router.exit()
+        presenter.onBackPressed()
 
         return true
     }

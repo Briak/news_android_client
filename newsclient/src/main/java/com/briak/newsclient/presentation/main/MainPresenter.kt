@@ -9,8 +9,10 @@ import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 @InjectViewState
-class MainPresenter: MvpPresenter<MainView>() {
-    @Inject lateinit var router: Router
+class MainPresenter : MvpPresenter<MainView>() {
+
+    @Inject
+    lateinit var router: Router
 
     fun onNewsTabClick() {
         router.replaceScreen(Screens.NEWS_SCREEN)

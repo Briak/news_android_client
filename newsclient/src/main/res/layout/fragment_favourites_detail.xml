@@ -4,29 +4,29 @@
     style="@style/Background">
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/newsDetailToolbar"
+        android:id="@+id/favouritesDetailToolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@color/colorPrimary">
 
         <ImageView
-            android:id="@+id/newsDetailBackView"
+            android:id="@+id/favouritesDetailBackView"
             style="@style/BackButton"
             android:contentDescription="TODO" />
 
         <TextView
             style="@style/ToolbarTheme"
-            android:text="@string/news_detail"
-            app:layout_constraintStart_toEndOf="@id/newsDetailBackView"
+            android:text="@string/favourites_detail"
+            app:layout_constraintStart_toEndOf="@id/favouritesDetailBackView"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:text="FAVOURITES DETAIL"
         android:gravity="center"
-        android:text="NEWS DETAIL"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/newsDetailToolbar" />
+        app:layout_constraintTop_toBottomOf="@id/favouritesDetailToolbar" />
 
 </android.support.constraint.ConstraintLayout>

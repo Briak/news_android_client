@@ -1,4 +1,4 @@
-package com.briak.newsclient.model.di
+package com.briak.newsclient.model.di.application
 
 import dagger.Module
 import dagger.Provides

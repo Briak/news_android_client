@@ -4,11 +4,17 @@
     android:id="@+id/newsContainerView"
     style="@style/Background">
 
-    <TextView
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/newsToolbar"
-        style="@style/ToolbarTheme"
-        android:text="@string/menu_news"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            style="@style/ToolbarTheme"
+            android:text="@string/menu_news"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/newsListView"
