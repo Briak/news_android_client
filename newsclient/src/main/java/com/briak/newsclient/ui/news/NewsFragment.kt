@@ -16,6 +16,11 @@ import com.briak.newsclient.ui.base.BaseFragment
 import com.briak.newsclient.ui.main.MainActivity
 import com.briak.newsclient.ui.newsdetail.NewsDetailFragment
 import kotlinx.android.synthetic.main.fragment_news.*
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.CoroutineStart
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
@@ -51,6 +56,12 @@ class NewsFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        launch(UI, CoroutineStart.UNDISPATCHED) {
+            initListView()
+        }
+    }
+
+    private suspend fun initListView() = withContext(CommonPool) {
         newsListView.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = NewsAdapter(listOf(NewsUIEntity(), NewsUIEntity(), NewsUIEntity(), NewsUIEntity()), this@NewsFragment)
