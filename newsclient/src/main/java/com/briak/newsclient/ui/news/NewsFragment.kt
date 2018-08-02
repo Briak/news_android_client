@@ -9,6 +9,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.R
 import com.briak.newsclient.entities.news.presentation.NewsUIEntity
+import com.briak.newsclient.entities.news.server.Article
 import com.briak.newsclient.model.system.Screens
 import com.briak.newsclient.presentation.news.NewsPresenter
 import com.briak.newsclient.ui.base.BackButtonListener
@@ -53,21 +54,6 @@ class NewsFragment :
     @ProvidePresenter
     fun provideNewsPresenter(): NewsPresenter = NewsPresenter(newsRouter)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        launch(UI, CoroutineStart.UNDISPATCHED) {
-            initListView()
-        }
-    }
-
-    private suspend fun initListView() = withContext(CommonPool) {
-        newsListView.apply {
-            layoutManager = LinearLayoutManager(activity)
-            adapter = NewsAdapter(listOf(NewsUIEntity(), NewsUIEntity(), NewsUIEntity(), NewsUIEntity()), this@NewsFragment)
-        }
-    }
-
     override fun onResume() {
         super.onResume()
 
@@ -88,6 +74,15 @@ class NewsFragment :
 
     override fun onNewsClick(id: String) {
         presenter.onNewsClick(id)
+    }
+
+    override fun showTopNews(articles: List<Article>) {
+        launch(UI) {
+            newsListView.apply {
+                layoutManager = LinearLayoutManager(activity)
+                adapter = NewsAdapter(articles, this@NewsFragment)
+            }
+        }
     }
 
     private fun getNavigator(): Navigator {

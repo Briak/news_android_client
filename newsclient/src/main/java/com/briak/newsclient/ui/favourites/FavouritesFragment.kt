@@ -54,7 +54,7 @@ class FavouritesFragment :
 
         favouritesListView.apply {
             layoutManager = LinearLayoutManager(activity)
-            adapter = NewsAdapter(listOf(NewsUIEntity(), NewsUIEntity(), NewsUIEntity(), NewsUIEntity()), this@FavouritesFragment)
+//            adapter = NewsAdapter(listOf(NewsUIEntity(), NewsUIEntity(), NewsUIEntity(), NewsUIEntity()), this@FavouritesFragment)
         }
     }
 
