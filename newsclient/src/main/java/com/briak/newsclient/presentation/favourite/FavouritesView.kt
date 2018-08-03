@@ -1,11 +1,10 @@
-package com.briak.newsclient.ui.news
+package com.briak.newsclient.presentation.favourite
 
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
-import com.briak.newsclient.entities.news.server.Article
 
 @StateStrategyType(AddToEndSingleStrategy::class)
-interface NewsView: MvpView {
-    fun showTopNews(articles: List<Article>)
+interface FavouritesView: MvpView {
+
 }

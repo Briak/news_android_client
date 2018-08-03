@@ -1,4 +1,4 @@
-package com.briak.newsclient.ui.newsdetail
+package com.briak.newsclient.presentation.newsdetail
 
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy

@@ -8,9 +8,9 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.R
-import com.briak.newsclient.entities.news.presentation.NewsUIEntity
 import com.briak.newsclient.model.system.Screens
 import com.briak.newsclient.presentation.favourite.FavouritesPresenter
+import com.briak.newsclient.presentation.favourite.FavouritesView
 import com.briak.newsclient.ui.base.BackButtonListener
 import com.briak.newsclient.ui.base.BaseFragment
 import com.briak.newsclient.ui.favouritesdetail.FavouritesDetailFragment

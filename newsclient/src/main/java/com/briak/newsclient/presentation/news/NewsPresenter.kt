@@ -5,9 +5,7 @@ import com.arellomobile.mvp.MvpPresenter
 import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.model.domain.news.NewsInteractorImpl
 import com.briak.newsclient.model.system.Screens
-import com.briak.newsclient.ui.news.NewsView
 import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 

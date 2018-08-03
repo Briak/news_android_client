@@ -3,7 +3,6 @@ package com.briak.newsclient.presentation.favourite
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.briak.newsclient.model.system.Screens
-import com.briak.newsclient.ui.favourites.FavouritesView
 import ru.terrakok.cicerone.Router
 
 @InjectViewState

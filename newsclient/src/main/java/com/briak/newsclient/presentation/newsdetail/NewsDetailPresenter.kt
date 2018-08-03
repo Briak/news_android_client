@@ -3,7 +3,6 @@ package com.briak.newsclient.presentation.newsdetail
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.briak.newsclient.NewsClientApplication
-import com.briak.newsclient.ui.newsdetail.NewsDetailView
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 

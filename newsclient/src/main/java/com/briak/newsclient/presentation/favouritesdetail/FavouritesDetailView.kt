@@ -1,4 +1,4 @@
-package com.briak.newsclient.ui.favouritesdetail
+package com.briak.newsclient.presentation.favouritesdetail
 
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy

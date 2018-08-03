@@ -1,13 +1,13 @@
 package com.briak.newsclient.ui.main
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.R
 import com.briak.newsclient.model.system.Screens
 import com.briak.newsclient.presentation.main.MainPresenter
+import com.briak.newsclient.presentation.main.MainView
 import com.briak.newsclient.ui.base.BackButtonListener
 import com.briak.newsclient.ui.base.JobHolder
 import com.briak.newsclient.ui.favourites.FavouritesFragment
@@ -18,7 +18,6 @@ import kotlinx.coroutines.experimental.Job
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
-import ru.terrakok.cicerone.android.SupportFragmentNavigator
 import ru.terrakok.cicerone.commands.Back
 import ru.terrakok.cicerone.commands.Command
 import ru.terrakok.cicerone.commands.Replace
