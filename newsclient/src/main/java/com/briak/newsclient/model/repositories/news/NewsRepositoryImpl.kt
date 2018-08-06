@@ -8,7 +8,7 @@ import javax.inject.Inject
 class NewsRepositoryImpl @Inject constructor(
         private var newsApi: NewsApi
 ) : NewsRepository {
-    override suspend fun getNews(
+    override fun getNews(
             country: String,
             category: String
     ): Deferred<RSS> =

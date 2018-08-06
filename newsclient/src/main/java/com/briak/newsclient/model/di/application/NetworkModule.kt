@@ -8,6 +8,8 @@ import com.briak.newsclient.model.domain.news.NewsInteractor
 import com.briak.newsclient.model.domain.news.NewsInteractorImpl
 import com.briak.newsclient.model.repositories.news.NewsRepository
 import com.briak.newsclient.model.repositories.news.NewsRepositoryImpl
+import com.briak.newsclient.model.system.ResourceManager
+import com.briak.newsclient.presentation.base.ErrorHandler
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -23,20 +25,13 @@ import javax.inject.Singleton
 class NetworkModule {
     @Provides
     @Singleton
-    fun provideErrorResponseInterceptor(): ErrorResponseInterceptor = ErrorResponseInterceptor()
-
-    @Provides
-    @Singleton
-    fun provideOkHttpClient(
-            context: Context,
-            errorResponseInterceptor: ErrorResponseInterceptor
-    ): OkHttpClient =
+    fun provideOkHttpClient(context: Context): OkHttpClient =
             with(OkHttpClient.Builder()) {
                 cache(Cache(context.cacheDir, 20 * 1024))
                 connectTimeout(30, TimeUnit.SECONDS)
                 readTimeout(30, TimeUnit.SECONDS)
 
-                addNetworkInterceptor(errorResponseInterceptor)
+                addNetworkInterceptor(ErrorResponseInterceptor())
                 if (BuildConfig.DEBUG) {
                     addNetworkInterceptor(
                             HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
@@ -58,7 +53,6 @@ class NetworkModule {
                 build()
             }
 
-
     @Provides
     @Singleton
     fun provideNewsApi(retrofit: Retrofit): NewsApi = retrofit.create(NewsApi::class.java)
@@ -70,5 +64,9 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideNewsInteractor(repository: NewsRepository): NewsInteractor = NewsInteractorImpl(repository)
+
+    @Provides
+    @Singleton
+    fun provideErrorHandler(resourceManager: ResourceManager) = ErrorHandler(resourceManager)
 
 }

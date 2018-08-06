@@ -3,11 +3,13 @@ package com.briak.newsclient.ui.news
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.widget.Toast
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.R
 import com.briak.newsclient.entities.news.server.Article
+import com.briak.newsclient.extensions.visible
 import com.briak.newsclient.model.system.Screens
 import com.briak.newsclient.presentation.news.NewsPresenter
 import com.briak.newsclient.presentation.news.NewsView
@@ -79,6 +81,20 @@ class NewsFragment :
                 adapter = NewsAdapter(articles, this@NewsFragment)
             }
         }
+    }
+
+    override fun showMessage(message: String) {
+//        launch(UI) {
+//            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+//            newsListView.visible(false)
+//        }
+    }
+
+    override fun showProgress(show: Boolean) {
+//        launch(UI) {
+//            newsProgressView.visible(show)
+//            newsListView.visible(!show)
+//        }
     }
 
     private fun getNavigator(): Navigator {

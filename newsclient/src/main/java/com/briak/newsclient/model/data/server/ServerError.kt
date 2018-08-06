@@ -1,3 +1,5 @@
 package com.briak.newsclient.model.data.server
 
-class ServerError(val errorCode: Int): RuntimeException()
+import com.briak.newsclient.entities.news.server.ErrorResponse
+
+class ServerError(val errorResponse: ErrorResponse): RuntimeException()
