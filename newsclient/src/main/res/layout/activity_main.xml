@@ -10,9 +10,8 @@
         android:id="@+id/mainContainerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
-        app:layout_constraintTop_toTopOf="parent">
-    </FrameLayout>
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationDividerView"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -20,5 +19,12 @@
         android:layout_height="56dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/menu_main_activity" />
+
+    <View
+        android:id="@+id/bottomNavigationDividerView"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EEEEEE"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView" />
 
 </android.support.constraint.ConstraintLayout>

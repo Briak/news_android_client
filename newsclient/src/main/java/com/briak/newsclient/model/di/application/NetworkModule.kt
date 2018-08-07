@@ -3,6 +3,7 @@ package com.briak.newsclient.model.di.application
 import android.content.Context
 import com.briak.newsclient.BuildConfig
 import com.briak.newsclient.model.data.server.NewsApi
+import com.briak.newsclient.model.data.server.adapters.DateAdapter
 import com.briak.newsclient.model.data.server.interceptor.ErrorResponseInterceptor
 import com.briak.newsclient.model.domain.news.NewsInteractor
 import com.briak.newsclient.model.domain.news.NewsInteractorImpl
@@ -11,6 +12,7 @@ import com.briak.newsclient.model.repositories.news.NewsRepositoryImpl
 import com.briak.newsclient.model.system.ResourceManager
 import com.briak.newsclient.presentation.base.ErrorHandler
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -18,6 +20,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -42,12 +45,19 @@ class NetworkModule {
 
     @Provides
     @Singleton
+    fun provideMoshi(): Moshi = Moshi.Builder()
+            .add(Date::class.java, DateAdapter().nullSafe())
+            .build()
+
+    @Provides
+    @Singleton
     fun provideRetrofit(
-            okHttpClient: OkHttpClient
+            okHttpClient: OkHttpClient,
+            moshi: Moshi
     ): Retrofit =
             with(Retrofit.Builder()) {
                 addCallAdapterFactory(CoroutineCallAdapterFactory())
-                addConverterFactory(MoshiConverterFactory.create())
+                addConverterFactory(MoshiConverterFactory.create(moshi))
                 client(okHttpClient)
                 baseUrl("https://newsapi.org")
                 build()

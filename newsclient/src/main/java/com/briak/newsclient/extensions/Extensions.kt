@@ -6,6 +6,8 @@ import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun View.onClick(action: suspend (View) -> Unit) {
     val eventActor = actor<View>(UI, parent = contextJob, capacity = Channel.CONFLATED) {
@@ -29,3 +31,5 @@ val View.contextJob: Job?
 fun View.visible(visible: Boolean) {
     this.visibility = if (visible) View.VISIBLE else View.GONE
 }
+
+fun Date.toShortDate(): String = SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault()).format(this)

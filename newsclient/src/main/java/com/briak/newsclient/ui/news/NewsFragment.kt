@@ -91,10 +91,10 @@ class NewsFragment :
     }
 
     override fun showProgress(show: Boolean) {
-//        launch(UI) {
-//            newsProgressView.visible(show)
-//            newsListView.visible(!show)
-//        }
+        launch(UI) {
+            newsProgressView.visible(show)
+            newsListView.visible(!show)
+        }
     }
 
     private fun getNavigator(): Navigator {

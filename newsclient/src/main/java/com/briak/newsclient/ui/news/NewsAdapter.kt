@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import com.briak.newsclient.R
 import com.briak.newsclient.entities.news.server.Article
 import com.briak.newsclient.extensions.onClick
+import com.briak.newsclient.extensions.toShortDate
+import com.briak.newsclient.extensions.visible
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_news.view.*
 
 class NewsAdapter(private val list: List<Article>,
@@ -28,12 +31,15 @@ class NewsAdapter(private val list: List<Article>,
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(news: Article) = with(itemView) {
-            with(itemView) {
-                titleView.text = news.title
-                descriptionView.text = news.description
-                authorView.text = news.author
-                publishedAtView.text = news.publishedAt
-            }
+            titleView.text = news.title
+            authorView.text = news.author
+            authorView.visible(news.author != null && news.author.isNotEmpty())
+            publishedAtView.text = news.publishedAt.toShortDate()
+            Glide.with(context)
+                    .asBitmap()
+                    .load(news.urlToImage)
+                    .into(iconView)
+            iconView.visible(news.urlToImage != null && news.urlToImage.isNotEmpty())
         }
     }
 
