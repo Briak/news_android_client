@@ -1,32 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/Background">
+    style="@style/Background"
+    android:overScrollMode="never"
+    android:scrollbars="none">
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/newsDetailToolbar"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/colorPrimary">
+        android:layout_height="wrap_content">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/newsDetailToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/colorPrimary">
+
+            <ImageView
+                android:id="@+id/newsDetailBackView"
+                style="@style/BackButton"
+                android:contentDescription="TODO" />
+
+            <TextView
+                android:id="@+id/newsDetailToolbarTitle"
+                style="@style/ToolbarTheme"
+                android:layout_marginEnd="16dp"
+                android:maxLines="1"
+                android:lines="1"
+                android:ellipsize="end"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/newsDetailBackView"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
 
         <ImageView
-            android:id="@+id/newsDetailBackView"
-            style="@style/BackButton"
-            android:contentDescription="TODO" />
+            android:id="@+id/iconView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:contentDescription="TODO"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toBottomOf="@id/newsDetailToolbar" />
 
         <TextView
-            style="@style/ToolbarTheme"
-            android:text="@string/news_detail"
-            app:layout_constraintStart_toEndOf="@id/newsDetailBackView"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/authorView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="26dp"
+            android:drawablePadding="5dp"
+            android:drawableStart="@mipmap/ic_user"
+            android:drawableTint="@color/colorAccent"
+            android:textColor="@color/colorTextLight"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@id/publishedAtView"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iconView" />
+
+        <TextView
+            android:id="@+id/publishedAtView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="26dp"
+            android:gravity="end"
+            android:textColor="@color/colorTextDate"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/authorView"
+            app:layout_constraintTop_toBottomOf="@id/iconView" />
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorText"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/authorView" />
+
+        <TextView
+            android:id="@+id/descriptionView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorText"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleView" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="@drawable/toolbar_shadow"
+            app:layout_constraintTop_toBottomOf="@id/newsDetailToolbar" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="@drawable/toolbar_shadow"
+            app:layout_constraintTop_toBottomOf="@id/iconView" />
     </android.support.constraint.ConstraintLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:text="NEWS DETAIL"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/newsDetailToolbar" />
-
-</android.support.constraint.ConstraintLayout>
+</ScrollView>

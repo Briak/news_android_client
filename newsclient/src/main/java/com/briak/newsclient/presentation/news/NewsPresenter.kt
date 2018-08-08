@@ -4,13 +4,10 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.entities.news.server.Article
-import com.briak.newsclient.model.data.server.ServerError
 import com.briak.newsclient.model.domain.news.NewsInteractorImpl
 import com.briak.newsclient.model.system.Screens
 import com.briak.newsclient.presentation.base.ErrorHandler
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.UI
-import retrofit2.HttpException
+import kotlinx.coroutines.experimental.launch
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
@@ -29,7 +26,7 @@ class NewsPresenter(private var router: Router) : MvpPresenter<NewsView>() {
         getTopNews()
     }
 
-    fun onNewsClick(id: String) = router.navigateTo(Screens.NEWS_DETAIL_SCREEN)
+    fun onNewsClick(news: Article) = router.navigateTo(Screens.NEWS_DETAIL_SCREEN, news)
 
     fun onBackPressed() = router.exit()
 
@@ -48,10 +45,6 @@ class NewsPresenter(private var router: Router) : MvpPresenter<NewsView>() {
                     viewState.showMessage(e.message!!)
                 }
                 viewState.showProgress(false)
-            } catch (e: HttpException) {
-                e.printStackTrace()
-            } catch (e: ServerError) {
-                e.printStackTrace()
             }
         }
     }

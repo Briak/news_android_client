@@ -25,6 +25,10 @@ import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.android.SupportFragmentNavigator
 import javax.inject.Inject
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.DividerItemDecoration
+
+
 
 class NewsFragment :
         BaseFragment(),
@@ -70,24 +74,28 @@ class NewsFragment :
         return true
     }
 
-    override fun onNewsClick(id: String) {
-        presenter.onNewsClick(id)
+    override fun onNewsClick(article: Article) {
+        presenter.onNewsClick(article)
     }
 
     override fun showTopNews(articles: List<Article>) {
+        val itemDecorator = DividerItemDecoration(context!!, DividerItemDecoration.VERTICAL)
+        itemDecorator.setDrawable(ContextCompat.getDrawable(context!!, R.drawable.decorator_listview)!!)
+
         launch(UI) {
             newsListView.apply {
                 layoutManager = LinearLayoutManager(activity)
+                addItemDecoration(itemDecorator)
                 adapter = NewsAdapter(articles, this@NewsFragment)
             }
         }
     }
 
     override fun showMessage(message: String) {
-//        launch(UI) {
-//            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
-//            newsListView.visible(false)
-//        }
+        launch(UI) {
+            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+            newsListView.visible(false)
+        }
     }
 
     override fun showProgress(show: Boolean) {
@@ -105,7 +113,7 @@ class NewsFragment :
 
             override fun createFragment(screenKey: String?, data: Any?): Fragment? {
                 when (screenKey) {
-                    Screens.NEWS_DETAIL_SCREEN -> return NewsDetailFragment()
+                    Screens.NEWS_DETAIL_SCREEN -> return NewsDetailFragment.getInstance(data as Article)
                 }
 
                 return this@NewsFragment
@@ -116,5 +124,4 @@ class NewsFragment :
             }
         }
     }
-
 }

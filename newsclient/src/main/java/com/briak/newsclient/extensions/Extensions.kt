@@ -1,7 +1,15 @@
 package com.briak.newsclient.extensions
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import com.briak.newsclient.R
 import com.briak.newsclient.ui.base.JobHolder
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.BitmapImageViewTarget
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
@@ -32,4 +40,29 @@ fun View.visible(visible: Boolean) {
     this.visibility = if (visible) View.VISIBLE else View.GONE
 }
 
-fun Date.toShortDate(): String = SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault()).format(this)
+fun Date.toShortDate(): String = SimpleDateFormat("EEE, MMMM d, yyyy", Locale.getDefault()).format(this)
+
+fun String?.isNotNullOrEmpty(): Boolean = this != null && this.isNotEmpty()
+
+fun ImageView.loadImage(
+        url: String?,
+        placeHolder: Int,
+        ctx: Context? = null
+) {
+    Glide.with(ctx ?: context)
+            .asBitmap()
+            .load(url)
+            .into(object : BitmapImageViewTarget(this) {
+                override fun onLoadStarted(placeholder: Drawable?) {
+
+                }
+
+                override fun onLoadFailed(errorDrawable: Drawable?) {
+                    setImageResource(placeHolder)
+                }
+
+                override fun setResource(resource: Bitmap?) {
+                    setImageBitmap(resource)
+                }
+            })
+}

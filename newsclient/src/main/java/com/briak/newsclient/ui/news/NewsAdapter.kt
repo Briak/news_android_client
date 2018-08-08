@@ -7,10 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.briak.newsclient.R
 import com.briak.newsclient.entities.news.server.Article
-import com.briak.newsclient.extensions.onClick
-import com.briak.newsclient.extensions.toShortDate
-import com.briak.newsclient.extensions.visible
-import com.bumptech.glide.Glide
+import com.briak.newsclient.extensions.*
 import kotlinx.android.synthetic.main.item_news.view.*
 
 class NewsAdapter(private val list: List<Article>,
@@ -18,7 +15,7 @@ class NewsAdapter(private val list: List<Article>,
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.bind(list[position])
         holder.itemView.onClick {
-            listener.onNewsClick(list[position].title)
+            listener.onNewsClick(list[position])
         }
     }
 
@@ -33,17 +30,13 @@ class NewsAdapter(private val list: List<Article>,
         fun bind(news: Article) = with(itemView) {
             titleView.text = news.title
             authorView.text = news.author
-            authorView.visible(news.author != null && news.author.isNotEmpty())
+            authorView.visible(news.author.isNotNullOrEmpty())
             publishedAtView.text = news.publishedAt.toShortDate()
-            Glide.with(context)
-                    .asBitmap()
-                    .load(news.urlToImage)
-                    .into(iconView)
-            iconView.visible(news.urlToImage != null && news.urlToImage.isNotEmpty())
+            iconView.loadImage(news.urlToImage, R.mipmap.ic_bananya_small, context)
         }
     }
 
     interface OnNewsClickListener {
-        fun onNewsClick(id: String)
+        fun onNewsClick(article: Article)
     }
 }

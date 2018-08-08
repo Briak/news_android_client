@@ -1,0 +1,7 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/below_decorator_listview" />
+    <item
+        android:drawable="@drawable/above_decorator_listview"
+        android:left="16dp"
+        android:right="16dp" />
+</layer-list>
