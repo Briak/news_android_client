@@ -1,4 +1,4 @@
-package com.briak.newsclient.ui.settings
+package com.briak.newsclient.ui.about
 
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.briak.newsclient.R
@@ -7,7 +7,7 @@ import com.briak.newsclient.presentation.settings.SettingsView
 import com.briak.newsclient.ui.base.BackButtonListener
 import com.briak.newsclient.ui.base.BaseFragment
 
-class SettingsFragment :
+class AboutFragment :
         BaseFragment(),
         SettingsView,
         BackButtonListener {
@@ -15,7 +15,7 @@ class SettingsFragment :
     @InjectPresenter
     lateinit var presenter: SettingsPresenter
 
-    override val layoutRes: Int = R.layout.fragment_settings
+    override val layoutRes: Int = R.layout.fragment_about
 
     override fun onBackPressed(): Boolean {
         presenter.onBackPressed()

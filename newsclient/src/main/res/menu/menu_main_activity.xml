@@ -4,12 +4,9 @@
         android:id="@+id/action_news"
         android:icon="@mipmap/ic_news"
         android:title="@string/menu_news" />
+
     <item
-        android:id="@+id/action_favourite"
-        android:icon="@mipmap/ic_star"
-        android:title="@string/menu_starred" />
-    <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_about"
         android:icon="@mipmap/ic_settings"
-        android:title="@string/menu_settings" />
+        android:title="@string/menu_about" />
 </menu>

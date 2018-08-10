@@ -10,9 +10,8 @@ import com.briak.newsclient.presentation.main.MainPresenter
 import com.briak.newsclient.presentation.main.MainView
 import com.briak.newsclient.ui.base.BackButtonListener
 import com.briak.newsclient.ui.base.JobHolder
-import com.briak.newsclient.ui.favourites.FavouritesFragment
 import com.briak.newsclient.ui.news.NewsFragment
-import com.briak.newsclient.ui.settings.SettingsFragment
+import com.briak.newsclient.ui.about.AboutFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.experimental.Job
 import ru.terrakok.cicerone.Navigator
@@ -36,8 +35,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, JobHolder {
     lateinit var router: Router
 
     private var newsFragment: NewsFragment? = null
-    private var favouritesFragment: FavouritesFragment? = null
-    private var settingsFragment: SettingsFragment? = null
+    private var settingsFragment: AboutFragment? = null
 
     override val job: Job = Job()
 
@@ -93,12 +91,8 @@ class MainActivity : MvpAppCompatActivity(), MainView, JobHolder {
                     presenter.onNewsTabClick()
                     true
                 }
-                item.itemId == R.id.action_favourite -> {
-                    presenter.onFavouritesTabClick()
-                    true
-                }
-                item.itemId == R.id.action_settings -> {
-                    presenter.onSettingsTabClick()
+                item.itemId == R.id.action_about -> {
+                    presenter.onAboutTabClick()
                     true
                 }
                 else -> false
@@ -118,24 +112,14 @@ class MainActivity : MvpAppCompatActivity(), MainView, JobHolder {
                 when (command.screenKey) {
                     Screens.NEWS_SCREEN -> {
                         supportFragmentManager.beginTransaction()
-                                .detach(favouritesFragment)
                                 .detach(settingsFragment)
                                 .attach(newsFragment)
-                                .commitNow()
-                    }
-
-                    Screens.FAVOURITES_SCREEN -> {
-                        supportFragmentManager.beginTransaction()
-                                .detach(newsFragment)
-                                .detach(settingsFragment)
-                                .attach(favouritesFragment)
                                 .commitNow()
                     }
 
                     Screens.SETTINGS_SCREEN -> {
                         supportFragmentManager.beginTransaction()
                                 .detach(newsFragment)
-                                .detach(favouritesFragment)
                                 .attach(settingsFragment)
                                 .commitNow()
                     }
@@ -156,18 +140,9 @@ class MainActivity : MvpAppCompatActivity(), MainView, JobHolder {
                     .commitNow()
         }
 
-        favouritesFragment = supportFragmentManager.findFragmentByTag(Screens.FAVOURITES_SCREEN) as FavouritesFragment?
-        if (favouritesFragment == null) {
-            favouritesFragment = FavouritesFragment()
-            supportFragmentManager.beginTransaction()
-                    .add(R.id.mainContainerView, favouritesFragment, Screens.FAVOURITES_SCREEN)
-                    .detach(favouritesFragment)
-                    .commitNow()
-        }
-
-        settingsFragment = supportFragmentManager.findFragmentByTag(Screens.SETTINGS_SCREEN) as SettingsFragment?
+        settingsFragment = supportFragmentManager.findFragmentByTag(Screens.SETTINGS_SCREEN) as AboutFragment?
         if (settingsFragment == null) {
-            settingsFragment = SettingsFragment()
+            settingsFragment = AboutFragment()
             supportFragmentManager.beginTransaction()
                     .add(R.id.mainContainerView, settingsFragment, Screens.SETTINGS_SCREEN)
                     .detach(settingsFragment)

@@ -17,11 +17,7 @@ class MainPresenter : MvpPresenter<MainView>() {
         router.replaceScreen(Screens.NEWS_SCREEN)
     }
 
-    fun onFavouritesTabClick() {
-        router.replaceScreen(Screens.FAVOURITES_SCREEN)
-    }
-
-    fun onSettingsTabClick() {
+    fun onAboutTabClick() {
         router.replaceScreen(Screens.SETTINGS_SCREEN)
     }
 

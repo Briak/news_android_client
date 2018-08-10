@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/favouritesContainerView"
     style="@style/Background">
 
+
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/favouritesToolbar"
-        android:background="@color/colorPrimary"
+        android:id="@+id/settingsToolbar"
         android:layout_width="match_parent"
-        android:layout_height="56dp">
+        android:layout_height="56dp"
+        android:background="@color/colorPrimary">
 
         <TextView
             style="@style/ToolbarTheme"
-            android:text="@string/menu_starred"
+            android:text="@string/menu_about"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/favouritesListView"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:gravity="center"
+        android:text="ABOUT"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/favouritesToolbar" />
+        app:layout_constraintTop_toBottomOf="@id/settingsToolbar" />
 
 </android.support.constraint.ConstraintLayout>
