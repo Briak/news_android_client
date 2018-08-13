@@ -27,14 +27,21 @@ import ru.terrakok.cicerone.android.SupportFragmentNavigator
 import javax.inject.Inject
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
-
+import android.view.View
+import com.briak.newsclient.entities.news.presentation.Category
+import com.briak.newsclient.extensions.onClick
+import com.briak.newsclient.ui.base.RouterProvider
+import com.briak.newsclient.ui.categories.CategoriesFragment
+import ru.terrakok.cicerone.result.ResultListener
 
 
 class NewsFragment :
         BaseFragment(),
         NewsView,
         NewsAdapter.OnNewsClickListener,
-        BackButtonListener {
+        BackButtonListener,
+        RouterProvider,
+        ResultListener {
 
     @InjectPresenter
     lateinit var presenter: NewsPresenter
@@ -51,10 +58,18 @@ class NewsFragment :
         NewsClientApplication.newsNavigationComponent.inject(this)
 
         super.onCreate(savedInstanceState)
+
+        newsRouter.setResultListener(1001, this)
     }
 
     @ProvidePresenter
     fun provideNewsPresenter(): NewsPresenter = NewsPresenter(newsRouter)
+
+    override fun onResult(resultData: Any?) {
+        newsToolbarTitleView.setText((resultData as Category).getStringValue())
+
+        presenter.getTopNews(activity!!.resources.getString(resultData.getStringValue()))
+    }
 
     override fun onResume() {
         super.onResume()
@@ -77,6 +92,8 @@ class NewsFragment :
     override fun onNewsClick(article: Article) {
         presenter.onNewsClick(article)
     }
+
+    override fun getRouter(): Router = newsRouter
 
     override fun showTopNews(articles: List<Article>) {
         val itemDecorator = DividerItemDecoration(context!!, DividerItemDecoration.VERTICAL)
@@ -105,6 +122,14 @@ class NewsFragment :
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        filterView.onClick {
+            presenter.onFilterClick()
+        }
+    }
+
     private fun getNavigator(): Navigator {
         return object : SupportFragmentNavigator(childFragmentManager, R.id.newsContainerView) {
             override fun exit() {
@@ -114,6 +139,7 @@ class NewsFragment :
             override fun createFragment(screenKey: String?, data: Any?): Fragment? {
                 when (screenKey) {
                     Screens.NEWS_DETAIL_SCREEN -> return NewsDetailFragment.getInstance(data as Article)
+                    Screens.CATEGORIES_SCREEN -> return CategoriesFragment()
                 }
 
                 return this@NewsFragment

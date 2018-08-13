@@ -3,6 +3,7 @@ package com.briak.newsclient.presentation.news
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.briak.newsclient.NewsClientApplication
+import com.briak.newsclient.entities.news.presentation.Category
 import com.briak.newsclient.entities.news.server.Article
 import com.briak.newsclient.model.domain.news.NewsInteractorImpl
 import com.briak.newsclient.model.system.Screens
@@ -23,19 +24,21 @@ class NewsPresenter(private var router: Router) : MvpPresenter<NewsView>() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
 
-        getTopNews()
+        getTopNews(Category.BUSINESS.name)
     }
 
     fun onNewsClick(news: Article) = router.navigateTo(Screens.NEWS_DETAIL_SCREEN, news)
 
+    fun onFilterClick() = router.navigateTo(Screens.CATEGORIES_SCREEN)
+
     fun onBackPressed() = router.exit()
 
-    private fun getTopNews() {
+    fun getTopNews(category: String) {
         viewState.showProgress(true)
 
         launch {
             try {
-                val request = newsInteractor.getTopNews()
+                val request = newsInteractor.getTopNews(category)
                 val result = request.await()
                 viewState.showTopNews(result.articles)
                 viewState.showProgress(false)

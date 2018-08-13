@@ -8,10 +8,10 @@ import javax.inject.Inject
 class NewsInteractorImpl @Inject constructor(
         private var repository: NewsRepository
 ) : NewsInteractor {
-    override fun getTopNews(): Deferred<RSS> =
-            repository.getNews("us", "business")
+    override fun getTopNews(category: String): Deferred<RSS> =
+            repository.getNews("us", category)
 
-    override fun getAllNews(): Deferred<RSS> =
-            repository.getNews("ru", "business")
+    override fun getAllNews(category: String): Deferred<RSS> =
+            repository.getNews("ru", category)
 
 }

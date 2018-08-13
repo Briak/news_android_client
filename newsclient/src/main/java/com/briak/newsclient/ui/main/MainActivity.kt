@@ -23,7 +23,10 @@ import ru.terrakok.cicerone.commands.Replace
 import javax.inject.Inject
 
 
-class MainActivity : MvpAppCompatActivity(), MainView, JobHolder {
+class MainActivity :
+        MvpAppCompatActivity(),
+        MainView,
+        JobHolder {
 
     @InjectPresenter
     lateinit var presenter: MainPresenter

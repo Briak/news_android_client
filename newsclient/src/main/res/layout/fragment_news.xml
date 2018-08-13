@@ -11,9 +11,24 @@
         android:background="@color/colorPrimary">
 
         <TextView
+            android:id="@+id/newsToolbarTitleView"
             style="@style/ToolbarTheme"
-            android:text="@string/menu_news"
+            android:text="@string/category_business"
+            app:layout_constraintEnd_toStartOf="@id/filterView"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/filterView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:contentDescription="TODO"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:src="@mipmap/ic_filter"
+            android:tint="@android:color/white"
+
+            app:layout_constraintEnd_toEndOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView

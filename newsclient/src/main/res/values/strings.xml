@@ -4,6 +4,13 @@
     <string name="menu_starred">Favourites</string>
     <string name="menu_about">About</string>
     <string name="news_detail">News detail</string>
+    <string name="select_category">Select category</string>
+    <string name="category_business">Business</string>
+    <string name="category_entertainment">Entertainment</string>
+    <string name="category_health">Health</string>
+    <string name="category_science">Science</string>
+    <string name="category_technology">Technology</string>
+    <string name="category_sports">Sports</string>
 
     <!--Error messages-->
     <string name="unknown_error">Unknown error</string>

@@ -1,10 +1,10 @@
-package com.briak.newsclient.presentation.settings
+package com.briak.newsclient.presentation.about
 
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 
 @StateStrategyType(AddToEndSingleStrategy::class)
-interface SettingsView: MvpView {
+interface AboutView: MvpView {
 
 }
