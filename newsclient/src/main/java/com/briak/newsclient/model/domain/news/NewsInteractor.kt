@@ -6,5 +6,4 @@ import kotlinx.coroutines.experimental.Deferred
 interface NewsInteractor {
     fun getTopNews(category: String): Deferred<RSS>
     fun getAllNews(category: String): Deferred<RSS>
-
 }

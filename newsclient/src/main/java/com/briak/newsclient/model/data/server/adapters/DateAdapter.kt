@@ -8,7 +8,7 @@ import java.util.*
 
 class DateAdapter: JsonAdapter<Date>() {
     override fun fromJson(reader: JsonReader?): Date =
-         SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+         SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale("us"))
                  .parse(reader?.nextString())
 
     override fun toJson(writer: JsonWriter?, value: Date?) {

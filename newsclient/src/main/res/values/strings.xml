@@ -12,6 +12,10 @@
     <string name="category_technology">Technology</string>
     <string name="category_sports">Sports</string>
 
+    <!--Error dialog-->
+    <string name="ok">OK</string>
+    <string name="error">Error!</string>
+
     <!--Error messages-->
     <string name="unknown_error">Unknown error</string>
     <string name="network_error">Network error</string>

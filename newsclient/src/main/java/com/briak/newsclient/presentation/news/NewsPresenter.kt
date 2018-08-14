@@ -8,6 +8,8 @@ import com.briak.newsclient.entities.news.server.Article
 import com.briak.newsclient.model.domain.news.NewsInteractorImpl
 import com.briak.newsclient.model.system.Screens
 import com.briak.newsclient.presentation.base.ErrorHandler
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
@@ -34,19 +36,17 @@ class NewsPresenter(private var router: Router) : MvpPresenter<NewsView>() {
     fun onBackPressed() = router.exit()
 
     fun getTopNews(category: String) {
-        viewState.showProgress(true)
+        launch(UI) {
+            viewState.showProgress(true)
 
-        launch {
+            val request = async { newsInteractor.getTopNews(category) }
             try {
-                val request = newsInteractor.getTopNews(category)
                 val result = request.await()
-                viewState.showTopNews(result.articles)
+                viewState.showTopNews(result.await().articles)
                 viewState.showProgress(false)
             } catch (e: Throwable) {
                 e.printStackTrace()
-                errorHandler.proceed(e) {
-                    viewState.showMessage(e.message!!)
-                }
+                viewState.showMessage(errorHandler.proceed(e))
                 viewState.showProgress(false)
             }
         }

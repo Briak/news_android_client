@@ -30,6 +30,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.view.View
 import com.briak.newsclient.entities.news.presentation.Category
 import com.briak.newsclient.extensions.onClick
+import com.briak.newsclient.ui.base.ErrorDialogFragment
 import com.briak.newsclient.ui.base.RouterProvider
 import com.briak.newsclient.ui.categories.CategoriesFragment
 import ru.terrakok.cicerone.result.ResultListener
@@ -110,7 +111,7 @@ class NewsFragment :
 
     override fun showMessage(message: String) {
         launch(UI) {
-            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+            ErrorDialogFragment.getInstance(message).show(activity!!.supportFragmentManager, Screens.ERROR_DIALOG)
             newsListView.visible(false)
         }
     }

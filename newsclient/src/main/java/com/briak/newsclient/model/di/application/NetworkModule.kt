@@ -4,7 +4,6 @@ import android.content.Context
 import com.briak.newsclient.BuildConfig
 import com.briak.newsclient.model.data.server.NewsApi
 import com.briak.newsclient.model.data.server.adapters.DateAdapter
-import com.briak.newsclient.model.data.server.interceptor.ErrorResponseInterceptor
 import com.briak.newsclient.model.domain.news.NewsInteractor
 import com.briak.newsclient.model.domain.news.NewsInteractorImpl
 import com.briak.newsclient.model.repositories.news.NewsRepository
@@ -34,7 +33,6 @@ class NetworkModule {
                 connectTimeout(30, TimeUnit.SECONDS)
                 readTimeout(30, TimeUnit.SECONDS)
 
-                addNetworkInterceptor(ErrorResponseInterceptor())
                 if (BuildConfig.DEBUG) {
                     addNetworkInterceptor(
                             HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
