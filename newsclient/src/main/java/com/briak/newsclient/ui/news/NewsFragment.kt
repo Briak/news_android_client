@@ -2,19 +2,26 @@ package com.briak.newsclient.ui.news
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.widget.Toast
+import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.R
+import com.briak.newsclient.entities.news.presentation.Category
 import com.briak.newsclient.entities.news.server.Article
+import com.briak.newsclient.extensions.onClick
 import com.briak.newsclient.extensions.visible
 import com.briak.newsclient.model.system.Screens
 import com.briak.newsclient.presentation.news.NewsPresenter
 import com.briak.newsclient.presentation.news.NewsView
 import com.briak.newsclient.ui.base.BackButtonListener
 import com.briak.newsclient.ui.base.BaseFragment
+import com.briak.newsclient.ui.base.ErrorDialogFragment
+import com.briak.newsclient.ui.base.RouterProvider
+import com.briak.newsclient.ui.categories.CategoriesFragment
 import com.briak.newsclient.ui.main.MainActivity
 import com.briak.newsclient.ui.newsdetail.NewsDetailFragment
 import kotlinx.android.synthetic.main.fragment_news.*
@@ -24,16 +31,8 @@ import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.android.SupportFragmentNavigator
-import javax.inject.Inject
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.DividerItemDecoration
-import android.view.View
-import com.briak.newsclient.entities.news.presentation.Category
-import com.briak.newsclient.extensions.onClick
-import com.briak.newsclient.ui.base.ErrorDialogFragment
-import com.briak.newsclient.ui.base.RouterProvider
-import com.briak.newsclient.ui.categories.CategoriesFragment
 import ru.terrakok.cicerone.result.ResultListener
+import javax.inject.Inject
 
 
 class NewsFragment :

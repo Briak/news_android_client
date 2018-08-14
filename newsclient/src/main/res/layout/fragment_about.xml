@@ -16,12 +16,36 @@
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
+    <ImageView
+        android:id="@+id/happyView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_bananya_happy"
+        app:layout_constraintTop_toBottomOf="@id/settingsToolbar" />
+
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="ABOUT"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:text="@string/welcome"
+        android:textColor="@color/colorText"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/happyView" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@drawable/toolbar_shadow"
         app:layout_constraintTop_toBottomOf="@id/settingsToolbar" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@drawable/toolbar_shadow"
+        app:layout_constraintTop_toBottomOf="@id/happyView" />
 
 </android.support.constraint.ConstraintLayout>
