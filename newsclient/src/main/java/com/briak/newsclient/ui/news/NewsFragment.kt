@@ -68,7 +68,7 @@ class NewsFragment :
     override fun onResult(resultData: Any?) {
         newsToolbarTitleView.setText((resultData as Category).getStringValue())
 
-        presenter.getTopNews(activity!!.resources.getString(resultData.getStringValue()))
+        presenter.setCategory(activity!!.resources.getString(resultData.getStringValue()))
     }
 
     override fun onResume() {
@@ -119,6 +119,7 @@ class NewsFragment :
         launch(UI) {
             newsProgressView.visible(show)
             newsListView.visible(!show)
+            refreshNewsView.isRefreshing = false
         }
     }
 
@@ -127,6 +128,14 @@ class NewsFragment :
 
         filterView.onClick {
             presenter.onFilterClick()
+        }
+
+        refreshNewsView.apply {
+            setColorSchemeResources(R.color.colorAccent)
+
+            setOnRefreshListener {
+                presenter.getTopNews(refresh = true)
+            }
         }
     }
 

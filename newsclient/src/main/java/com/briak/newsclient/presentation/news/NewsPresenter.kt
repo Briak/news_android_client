@@ -23,10 +23,12 @@ class NewsPresenter(private var router: Router) : MvpPresenter<NewsView>() {
     @Inject
     lateinit var errorHandler: ErrorHandler
 
+    private var category: String = Category.BUSINESS.name
+
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
 
-        getTopNews(Category.BUSINESS.name)
+        getTopNews()
     }
 
     fun onNewsClick(news: Article) = router.navigateTo(Screens.NEWS_DETAIL_SCREEN, news)
@@ -35,9 +37,19 @@ class NewsPresenter(private var router: Router) : MvpPresenter<NewsView>() {
 
     fun onBackPressed() = router.exit()
 
-    fun getTopNews(category: String) {
+    fun setCategory(category: String) {
+        this.category = category
+
+        getTopNews()
+    }
+
+    private fun getTopNews() {
+        getTopNews(false)
+    }
+
+    fun getTopNews(refresh: Boolean) {
         launch(UI) {
-            viewState.showProgress(true)
+            viewState.showProgress(!refresh)
 
             val request = async { newsInteractor.getTopNews(category) }
             try {
