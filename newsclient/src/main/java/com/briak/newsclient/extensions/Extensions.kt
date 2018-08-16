@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import com.briak.newsclient.ui.base.JobHolder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.BitmapImageViewTarget
@@ -57,4 +58,24 @@ fun ImageView.loadImage(
                     setImageBitmap(resource)
                 }
             })
+}
+
+enum class Direction {
+    START,
+    END,
+    TOP,
+    BOTTOM
+}
+
+fun TextView.setDrawable(id: Int, direction: Direction) {
+    when (direction) {
+        Direction.START -> this.setCompoundDrawablesRelativeWithIntrinsicBounds(id, 0, 0, 0)
+        Direction.END -> this.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, id, 0)
+        Direction.TOP -> this.setCompoundDrawablesRelativeWithIntrinsicBounds(0, id, 0, 0)
+        Direction.BOTTOM -> this.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, id)
+    }
+}
+
+fun TextView.removeDrawable() {
+    this.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
 }

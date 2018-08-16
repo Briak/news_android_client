@@ -66,9 +66,11 @@ class NewsFragment :
     fun provideNewsPresenter(): NewsPresenter = NewsPresenter(newsRouter)
 
     override fun onResult(resultData: Any?) {
-        newsToolbarTitleView.setText((resultData as Category).getStringValue())
+        presenter.setCategory(activity!!.resources.getString((resultData as Category).getStringValue()))
+    }
 
-        presenter.setCategory(activity!!.resources.getString(resultData.getStringValue()))
+    override fun setTitle(title: String) {
+        newsToolbarTitleView.text = title
     }
 
     override fun onResume() {

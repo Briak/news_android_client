@@ -4,6 +4,8 @@ import com.briak.newsclient.entities.news.server.RSS
 import kotlinx.coroutines.experimental.Deferred
 
 interface NewsInteractor {
-    fun getTopNews(category: String): Deferred<RSS>
-    fun getAllNews(category: String): Deferred<RSS>
+    fun getTopNews(): Deferred<RSS>
+    fun getAllNews(): Deferred<RSS>
+    fun setCategory(category: String)
+    fun getCategory(): String
 }

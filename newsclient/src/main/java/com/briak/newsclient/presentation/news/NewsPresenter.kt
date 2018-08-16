@@ -3,7 +3,6 @@ package com.briak.newsclient.presentation.news
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.briak.newsclient.NewsClientApplication
-import com.briak.newsclient.entities.news.presentation.Category
 import com.briak.newsclient.entities.news.server.Article
 import com.briak.newsclient.model.domain.news.NewsInteractorImpl
 import com.briak.newsclient.model.system.Screens
@@ -23,8 +22,6 @@ class NewsPresenter(private var router: Router) : MvpPresenter<NewsView>() {
     @Inject
     lateinit var errorHandler: ErrorHandler
 
-    private var category: String = Category.BUSINESS.name
-
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
 
@@ -38,12 +35,14 @@ class NewsPresenter(private var router: Router) : MvpPresenter<NewsView>() {
     fun onBackPressed() = router.exit()
 
     fun setCategory(category: String) {
-        this.category = category
+        newsInteractor.setCategory(category)
 
         getTopNews()
     }
 
     private fun getTopNews() {
+        viewState.setTitle(newsInteractor.getCategory())
+
         getTopNews(false)
     }
 
@@ -51,7 +50,7 @@ class NewsPresenter(private var router: Router) : MvpPresenter<NewsView>() {
         launch(UI) {
             viewState.showProgress(!refresh)
 
-            val request = async { newsInteractor.getTopNews(category) }
+            val request = async { newsInteractor.getTopNews() }
             try {
                 val result = request.await()
                 viewState.showTopNews(result.await().articles)

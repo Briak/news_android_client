@@ -6,12 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import com.briak.newsclient.R
 import com.briak.newsclient.entities.news.presentation.Category
+import com.briak.newsclient.extensions.Direction
 import com.briak.newsclient.extensions.onClick
+import com.briak.newsclient.extensions.removeDrawable
+import com.briak.newsclient.extensions.setDrawable
 import kotlinx.android.synthetic.main.item_category.view.*
 
-class CategoryAdapter(private val listener: OnCategoryClickListener) : RecyclerView.Adapter<CategoryAdapter.Holder>() {
+class CategoryAdapter(private val listener: OnCategoryClickListener, private val selected: String) : RecyclerView.Adapter<CategoryAdapter.Holder>() {
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(Category.values()[position])
+        holder.bind(Category.values()[position], selected)
         holder.itemView.onClick {
             listener.onCategoryClick(Category.values()[position])
         }
@@ -25,9 +28,16 @@ class CategoryAdapter(private val listener: OnCategoryClickListener) : RecyclerV
     override fun getItemCount(): Int = Category.values().size
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(category: Category) = with(itemView) {
-            nameView.setText(category.getStringValue())
-        }
+        fun bind(category: Category, selected: String) = with(itemView) {
+            nameView.apply {
+                setText(category.getStringValue())
+                if (category.name.toLowerCase() == selected.toLowerCase()) {
+                    setDrawable(R.mipmap.ic_done, Direction.END)
+                } else {
+                    removeDrawable()
+                }
+            }
+        }!!
     }
 
     interface OnCategoryClickListener {

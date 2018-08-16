@@ -35,6 +35,13 @@ class CategoriesFragment:
         closeView.onClick {
             presenter.back()
         }
+    }
+
+    override fun onCategoryClick(category: Category) {
+        presenter.onCategoryClick(category)
+    }
+
+    override fun setSelectedCategory(category: String) {
 
         val itemDecorator = DividerItemDecoration(context!!, DividerItemDecoration.VERTICAL)
         itemDecorator.setDrawable(ContextCompat.getDrawable(context!!, R.drawable.decorator_listview)!!)
@@ -42,11 +49,7 @@ class CategoriesFragment:
         categoriesListView.apply {
             layoutManager = LinearLayoutManager(activity)
             addItemDecoration(itemDecorator)
-            adapter = CategoryAdapter(this@CategoriesFragment)
+            adapter = CategoryAdapter(this@CategoriesFragment, category)
         }
-    }
-
-    override fun onCategoryClick(category: Category) {
-        presenter.onCategoryClick(category)
     }
 }

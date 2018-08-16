@@ -5,7 +5,6 @@ import kotlinx.coroutines.experimental.Deferred
 
 interface NewsRepository {
     fun getNews(
-            country: String,
-            category: String
+            country: String
     ): Deferred<RSS>
 }

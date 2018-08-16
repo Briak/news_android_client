@@ -2,6 +2,7 @@ package com.briak.newsclient.model.di.application
 
 import android.content.Context
 import com.briak.newsclient.BuildConfig
+import com.briak.newsclient.model.data.categories.CategoriesHolder
 import com.briak.newsclient.model.data.server.NewsApi
 import com.briak.newsclient.model.data.server.adapters.DateAdapter
 import com.briak.newsclient.model.domain.news.NewsInteractor
@@ -63,18 +64,12 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideNewsApi(retrofit: Retrofit): NewsApi = retrofit.create(NewsApi::class.java)
+    fun provideNewsApi(retrofit: Retrofit): NewsApi =
+            retrofit.create(NewsApi::class.java)
 
     @Provides
     @Singleton
-    fun provideNewsRepository(api: NewsApi): NewsRepository = NewsRepositoryImpl(api)
-
-    @Provides
-    @Singleton
-    fun provideNewsInteractor(repository: NewsRepository): NewsInteractor = NewsInteractorImpl(repository)
-
-    @Provides
-    @Singleton
-    fun provideErrorHandler(resourceManager: ResourceManager) = ErrorHandler(resourceManager)
+    fun provideErrorHandler(resourceManager: ResourceManager) =
+            ErrorHandler(resourceManager)
 
 }
