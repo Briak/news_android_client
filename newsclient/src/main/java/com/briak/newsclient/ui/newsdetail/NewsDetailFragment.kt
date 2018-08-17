@@ -58,7 +58,7 @@ class NewsDetailFragment :
     private fun setArticle(article: Article) {
         newsDetailToolbarTitle.text = article.title
 
-        iconView.loadImage(article.urlToImage, R.mipmap.ic_bananya_large, activity)
+        iconView.loadImage(article.urlToImage, R.mipmap.ic_bananya_large, progressView, activity)
 
         if (article.author.isNotNullOrEmpty()) {
             authorView.text = article.author

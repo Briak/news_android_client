@@ -9,10 +9,13 @@ import android.widget.TextView
 import com.briak.newsclient.ui.base.JobHolder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.BitmapImageViewTarget
+import com.wang.avi.AVLoadingIndicatorView
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
+import kotlinx.coroutines.experimental.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -40,6 +43,7 @@ fun String?.isNotNullOrEmpty(): Boolean = this != null && this.isNotEmpty()
 fun ImageView.loadImage(
         url: String?,
         placeHolder: Int,
+        progressView: AVLoadingIndicatorView?,
         ctx: Context? = null
 ) {
     Glide.with(ctx ?: context)
@@ -47,15 +51,17 @@ fun ImageView.loadImage(
             .load(url)
             .into(object : BitmapImageViewTarget(this) {
                 override fun onLoadStarted(placeholder: Drawable?) {
-
+                    progressView?.visible(true)
                 }
 
                 override fun onLoadFailed(errorDrawable: Drawable?) {
                     setImageResource(placeHolder)
+                    progressView?.visible(false)
                 }
 
                 override fun setResource(resource: Bitmap?) {
                     setImageBitmap(resource)
+                    progressView?.visible(false)
                 }
             })
 }

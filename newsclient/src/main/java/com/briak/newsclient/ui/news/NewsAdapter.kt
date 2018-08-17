@@ -32,7 +32,7 @@ class NewsAdapter(private val list: List<Article>,
             authorView.text = news.author
             authorView.visible(news.author.isNotNullOrEmpty())
             publishedAtView.text = news.publishedAt.toShortDate()
-            iconView.loadImage(news.urlToImage, R.mipmap.ic_bananya_small, context)
+            iconView.loadImage(news.urlToImage, R.mipmap.ic_bananya_small, progressView, context)
         }
     }
 

@@ -45,6 +45,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/progressView"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="40dp"
+        android:visibility="invisible"
+        app:indicatorColor="@color/colorAccent"
+        app:indicatorName="BallClipRotateIndicator"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/publishedAtView"
         android:layout_width="wrap_content"
