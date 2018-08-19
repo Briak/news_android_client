@@ -37,14 +37,4 @@ class ApplicationModule(private val context: Context) {
     fun provideCategoriesInteractor(categoriesHolder: CategoriesHolder): CategoriesInteractor =
             CategoriesInteractorImpl(categoriesHolder)
 
-    @Provides
-    @Singleton
-    fun provideNewsRepository(api: NewsApi, categoriesHolder: CategoriesHolder): NewsRepository =
-            NewsRepositoryImpl(api, categoriesHolder)
-
-    @Provides
-    @Singleton
-    fun provideNewsInteractor(repository: NewsRepository, categoriesHolder: CategoriesHolder): NewsInteractor =
-            NewsInteractorImpl(repository, categoriesHolder)
-
 }

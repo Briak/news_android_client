@@ -43,9 +43,6 @@ class NewsFragment :
         RouterProvider,
         ResultListener {
 
-    @InjectPresenter
-    lateinit var presenter: NewsPresenter
-
     @Inject
     lateinit var newsNavigationHolder: NavigatorHolder
 
@@ -54,6 +51,13 @@ class NewsFragment :
 
     override val layoutRes: Int = R.layout.fragment_news
 
+    @Inject
+    @InjectPresenter
+    lateinit var presenter: NewsPresenter
+
+    @ProvidePresenter
+    fun provideNewsPresenter(): NewsPresenter = presenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         NewsClientApplication.newsNavigationComponent.inject(this)
 
@@ -61,9 +65,6 @@ class NewsFragment :
 
         newsRouter.setResultListener(1001, this)
     }
-
-    @ProvidePresenter
-    fun provideNewsPresenter(): NewsPresenter = NewsPresenter(newsRouter)
 
     override fun onResult(resultData: Any?) {
         presenter.setCategory(activity!!.resources.getString((resultData as Category).getStringValue()))

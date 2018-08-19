@@ -4,13 +4,13 @@ import android.app.Application
 import com.briak.newsclient.model.di.application.ApplicationComponent
 import com.briak.newsclient.model.di.application.ApplicationModule
 import com.briak.newsclient.model.di.application.DaggerApplicationComponent
-import com.briak.newsclient.model.di.news.DaggerNewsNavigationComponent
-import com.briak.newsclient.model.di.news.NewsNavigationComponent
+import com.briak.newsclient.model.di.news.*
 
 class NewsClientApplication : Application() {
     companion object {
         lateinit var component: ApplicationComponent
-        lateinit var newsNavigationComponent: NewsNavigationComponent
+        var newsComponent: NewsComponent? = null
+        var newsNavigationComponent: NewsNavigationComponent? = null
     }
 
     override fun onCreate() {
@@ -20,10 +20,14 @@ class NewsClientApplication : Application() {
                 .builder()
                 .applicationModule(ApplicationModule(this))
                 .build()
-
-        newsNavigationComponent = DaggerNewsNavigationComponent
-                .builder()
-                .applicationComponent(component)
-                .build()
     }
+
+    fun plusNewsNavigationComponent(): NewsNavigationComponent =
+            if (newsNavigationComponent == null) {
+                component.plusNewsNavigationComponent(NewsNavigationModule())
+            } else {
+                newsNavigationComponent!!
+            }
+
+
 }

@@ -2,22 +2,16 @@ package com.briak.newsclient.presentation.news
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
-import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.entities.news.server.Article
-import com.briak.newsclient.model.domain.news.NewsInteractorImpl
-import com.briak.newsclient.model.system.Screens
+import com.briak.newsclient.model.domain.news.NewsInteractor
 import com.briak.newsclient.presentation.base.ErrorHandler
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
-import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 @InjectViewState
-class NewsPresenter(private var router: Router) : MvpPresenter<NewsView>() {
-
-    @Inject
-    lateinit var newsInteractor: NewsInteractorImpl
+class NewsPresenter @Inject constructor(private var newsInteractor: NewsInteractor) : MvpPresenter<NewsView>() {
 
     @Inject
     lateinit var errorHandler: ErrorHandler
@@ -28,11 +22,11 @@ class NewsPresenter(private var router: Router) : MvpPresenter<NewsView>() {
         getTopNews()
     }
 
-    fun onNewsClick(news: Article) = router.navigateTo(Screens.NEWS_DETAIL_SCREEN, news)
+    fun onNewsClick(news: Article) = newsInteractor.onNewsClick(news)
 
-    fun onFilterClick() = router.navigateTo(Screens.CATEGORIES_SCREEN)
+    fun onFilterClick() = newsInteractor.onFilterClick()
 
-    fun onBackPressed() = router.exit()
+    fun onBackPressed() = newsInteractor.onBackPressed()
 
     fun setCategory(category: String) {
         newsInteractor.setCategory(category)
@@ -61,9 +55,5 @@ class NewsPresenter(private var router: Router) : MvpPresenter<NewsView>() {
                 viewState.showProgress(false)
             }
         }
-    }
-
-    init {
-        NewsClientApplication.component.inject(this)
     }
 }

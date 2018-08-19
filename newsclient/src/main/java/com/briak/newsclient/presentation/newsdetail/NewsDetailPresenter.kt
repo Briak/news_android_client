@@ -16,8 +16,8 @@ class NewsDetailPresenter: MvpPresenter<NewsDetailView>() {
         newsRouter.exit()
     }
 
-    init {
-        NewsClientApplication.newsNavigationComponent.inject(this)
-    }
+//    init {
+//        NewsClientApplication.newsNavigationComponent.inject(this)
+//    }
 
 }
