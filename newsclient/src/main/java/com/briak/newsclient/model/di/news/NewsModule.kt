@@ -9,23 +9,13 @@ import com.briak.newsclient.presentation.news.NewsPresenter
 import com.briak.newsclient.presentation.news.NewsView
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
+import ru.terrakok.cicerone.Cicerone
+import ru.terrakok.cicerone.NavigatorHolder
+import ru.terrakok.cicerone.Router
 
 @Module
 interface NewsModule {
-//    @Provides
-//    @NewsNavigationScope
-//    fun provideNewsRepository(api: NewsApi, categoriesHolder: CategoriesHolder): NewsRepository =
-//            NewsRepositoryImpl(api, categoriesHolder)
-//
-//    @Provides
-//    @NewsNavigationScope
-//    fun provideNewsInteractor(
-//            repository: NewsRepository,
-//            categoriesHolder: CategoriesHolder,
-//            newsRouter: Router
-//    ): NewsInteractor =
-//            NewsInteractorImpl(repository, categoriesHolder, newsRouter)
-
     @Binds
     @NewsScope
     fun provideNewsRepository(newsRepository: NewsRepositoryImpl): NewsRepository
@@ -37,4 +27,17 @@ interface NewsModule {
     @Binds
     @NewsScope
     fun provideNewsPresenter(newsPresenter: NewsPresenter): MvpPresenter<NewsView>
+
+    @Module
+    companion object {
+        private val newsCicerone: Cicerone<Router> = Cicerone.create()
+
+        @Provides
+        @NewsScope
+        fun provideNewsRouter(): Router = newsCicerone.router
+
+        @Provides
+        @NewsScope
+        fun provideNewsNavigatorHolder(): NavigatorHolder = newsCicerone.navigatorHolder
+    }
 }

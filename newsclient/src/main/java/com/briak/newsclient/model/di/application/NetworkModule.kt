@@ -2,13 +2,8 @@ package com.briak.newsclient.model.di.application
 
 import android.content.Context
 import com.briak.newsclient.BuildConfig
-import com.briak.newsclient.model.data.categories.CategoriesHolder
 import com.briak.newsclient.model.data.server.NewsApi
 import com.briak.newsclient.model.data.server.adapters.DateAdapter
-import com.briak.newsclient.model.domain.news.NewsInteractor
-import com.briak.newsclient.model.domain.news.NewsInteractorImpl
-import com.briak.newsclient.model.repositories.news.NewsRepository
-import com.briak.newsclient.model.repositories.news.NewsRepositoryImpl
 import com.briak.newsclient.model.system.ResourceManager
 import com.briak.newsclient.presentation.base.ErrorHandler
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory

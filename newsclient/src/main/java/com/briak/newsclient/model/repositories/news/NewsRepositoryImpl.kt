@@ -3,9 +3,11 @@ package com.briak.newsclient.model.repositories.news
 import com.briak.newsclient.entities.news.server.RSS
 import com.briak.newsclient.model.data.categories.CategoriesHolder
 import com.briak.newsclient.model.data.server.NewsApi
+import com.briak.newsclient.model.di.news.NewsScope
 import kotlinx.coroutines.experimental.Deferred
 import javax.inject.Inject
 
+@NewsScope
 class NewsRepositoryImpl @Inject constructor(
         private var newsApi: NewsApi,
         private var newsHolder: CategoriesHolder

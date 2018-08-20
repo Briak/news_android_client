@@ -14,6 +14,7 @@ import com.briak.newsclient.entities.news.presentation.Category
 import com.briak.newsclient.entities.news.server.Article
 import com.briak.newsclient.extensions.onClick
 import com.briak.newsclient.extensions.visible
+import com.briak.newsclient.model.di.news.NewsScope
 import com.briak.newsclient.model.system.Screens
 import com.briak.newsclient.presentation.news.NewsPresenter
 import com.briak.newsclient.presentation.news.NewsView
@@ -43,9 +44,11 @@ class NewsFragment :
         RouterProvider,
         ResultListener {
 
+    @NewsScope
     @Inject
     lateinit var newsNavigationHolder: NavigatorHolder
 
+    @NewsScope
     @Inject
     lateinit var newsRouter: Router
 
@@ -59,7 +62,7 @@ class NewsFragment :
     fun provideNewsPresenter(): NewsPresenter = presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        NewsClientApplication.newsNavigationComponent.inject(this)
+        NewsClientApplication.plusNewsComponent().inject(this)
 
         super.onCreate(savedInstanceState)
 

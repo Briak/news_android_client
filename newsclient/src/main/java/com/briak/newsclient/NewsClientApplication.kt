@@ -9,8 +9,20 @@ import com.briak.newsclient.model.di.news.*
 class NewsClientApplication : Application() {
     companion object {
         lateinit var component: ApplicationComponent
-        var newsComponent: NewsComponent? = null
-        var newsNavigationComponent: NewsNavigationComponent? = null
+        private var newsComponent: NewsComponent? = null
+
+        fun plusNewsComponent(): NewsComponent =
+                if (newsComponent == null) {
+                    component
+                            .newsComponentBuilder()
+                            .build()
+                } else {
+                    newsComponent!!
+                }
+
+        fun clearNewsComponent() {
+            newsComponent = null
+        }
     }
 
     override fun onCreate() {
@@ -21,13 +33,4 @@ class NewsClientApplication : Application() {
                 .applicationModule(ApplicationModule(this))
                 .build()
     }
-
-    fun plusNewsNavigationComponent(): NewsNavigationComponent =
-            if (newsNavigationComponent == null) {
-                component.plusNewsNavigationComponent(NewsNavigationModule())
-            } else {
-                newsNavigationComponent!!
-            }
-
-
 }
