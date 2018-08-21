@@ -5,13 +5,9 @@ import com.arellomobile.mvp.MvpPresenter
 import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.model.system.Screens
 import ru.terrakok.cicerone.Router
-import javax.inject.Inject
 
 @InjectViewState
-class MainPresenter : MvpPresenter<MainView>() {
-
-    @Inject
-    lateinit var router: Router
+class MainPresenter(private val router: Router): MvpPresenter<MainView>() {
 
     fun onNewsTabClick() {
         router.replaceScreen(Screens.NEWS_SCREEN)

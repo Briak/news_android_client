@@ -11,33 +11,31 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import ru.terrakok.cicerone.Cicerone
-import ru.terrakok.cicerone.NavigatorHolder
-import ru.terrakok.cicerone.Router
 
 @Module
-interface NewsModule {
+abstract class NewsModule {
     @Binds
     @NewsScope
-    fun provideNewsRepository(newsRepository: NewsRepositoryImpl): NewsRepository
+    abstract fun provideNewsRepository(newsRepository: NewsRepositoryImpl): NewsRepository
 
     @Binds
     @NewsScope
-    fun provideNewsInteractor(newsInteractor: NewsInteractorImpl): NewsInteractor
+    abstract fun provideNewsInteractor(newsInteractor: NewsInteractorImpl): NewsInteractor
 
     @Binds
     @NewsScope
-    fun provideNewsPresenter(newsPresenter: NewsPresenter): MvpPresenter<NewsView>
+    abstract fun provideNewsPresenter(newsPresenter: NewsPresenter): MvpPresenter<NewsView>
 
     @Module
     companion object {
-        private val newsCicerone: Cicerone<Router> = Cicerone.create()
-
+        @JvmStatic
         @Provides
         @NewsScope
-        fun provideNewsRouter(): Router = newsCicerone.router
+        fun provideNewsRouter(): NewsRouter = NewsRouter()
 
+        @JvmStatic
         @Provides
         @NewsScope
-        fun provideNewsNavigatorHolder(): NavigatorHolder = newsCicerone.navigatorHolder
+        fun provideNewsCicerone(newsRouter: NewsRouter): Cicerone<NewsRouter> = Cicerone.create(newsRouter)
     }
 }

@@ -3,17 +3,18 @@ package com.briak.newsclient.ui.main
 import android.os.Bundle
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.R
 import com.briak.newsclient.model.system.Screens
 import com.briak.newsclient.presentation.main.MainPresenter
 import com.briak.newsclient.presentation.main.MainView
+import com.briak.newsclient.ui.about.AboutFragment
 import com.briak.newsclient.ui.base.BackButtonListener
 import com.briak.newsclient.ui.news.NewsFragment
-import com.briak.newsclient.ui.about.AboutFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.Navigator
-import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.commands.Back
 import ru.terrakok.cicerone.commands.Command
@@ -29,10 +30,10 @@ class MainActivity :
     lateinit var presenter: MainPresenter
 
     @Inject
-    lateinit var navigatorHolder: NavigatorHolder
+    lateinit var cicerone: Cicerone<Router>
 
-    @Inject
-    lateinit var router: Router
+    @ProvidePresenter
+    fun provideMainPresenter(): MainPresenter = MainPresenter(cicerone.router)
 
     private var newsFragment: NewsFragment? = null
     private var settingsFragment: AboutFragment? = null
@@ -52,22 +53,22 @@ class MainActivity :
         }
     }
 
-    override fun onResumeFragments() {
-        super.onResumeFragments()
+    override fun onResume() {
+        super.onResume()
 
-        navigatorHolder.setNavigator(navigator)
+        cicerone.navigatorHolder.setNavigator(navigator)
     }
 
     override fun onPause() {
-        navigatorHolder.removeNavigator()
+        cicerone.navigatorHolder.removeNavigator()
 
         super.onPause()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
         NewsClientApplication.component.inject(this)
+
+        super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
 

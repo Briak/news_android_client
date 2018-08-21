@@ -14,7 +14,7 @@ import com.briak.newsclient.entities.news.presentation.Category
 import com.briak.newsclient.entities.news.server.Article
 import com.briak.newsclient.extensions.onClick
 import com.briak.newsclient.extensions.visible
-import com.briak.newsclient.model.di.news.NewsScope
+import com.briak.newsclient.model.di.news.NewsRouter
 import com.briak.newsclient.model.system.Screens
 import com.briak.newsclient.presentation.news.NewsPresenter
 import com.briak.newsclient.presentation.news.NewsView
@@ -28,9 +28,8 @@ import com.briak.newsclient.ui.newsdetail.NewsDetailFragment
 import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
+import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.Navigator
-import ru.terrakok.cicerone.NavigatorHolder
-import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.android.SupportFragmentNavigator
 import ru.terrakok.cicerone.result.ResultListener
 import javax.inject.Inject
@@ -44,15 +43,8 @@ class NewsFragment :
         RouterProvider,
         ResultListener {
 
-    @NewsScope
     @Inject
-    lateinit var newsNavigationHolder: NavigatorHolder
-
-    @NewsScope
-    @Inject
-    lateinit var newsRouter: Router
-
-    override val layoutRes: Int = R.layout.fragment_news
+    lateinit var newsCicerone: Cicerone<NewsRouter>
 
     @Inject
     @InjectPresenter
@@ -61,12 +53,14 @@ class NewsFragment :
     @ProvidePresenter
     fun provideNewsPresenter(): NewsPresenter = presenter
 
+    override val layoutRes: Int = R.layout.fragment_news
+
     override fun onCreate(savedInstanceState: Bundle?) {
         NewsClientApplication.plusNewsComponent().inject(this)
 
         super.onCreate(savedInstanceState)
 
-        newsRouter.setResultListener(1001, this)
+        newsCicerone.router.setResultListener(1001, this)
     }
 
     override fun onResult(resultData: Any?) {
@@ -80,11 +74,11 @@ class NewsFragment :
     override fun onResume() {
         super.onResume()
 
-        newsNavigationHolder.setNavigator(getNavigator())
+        newsCicerone.navigatorHolder.setNavigator(getNavigator())
     }
 
     override fun onPause() {
-        newsNavigationHolder.removeNavigator()
+        newsCicerone.navigatorHolder.removeNavigator()
 
         super.onPause()
     }
@@ -99,7 +93,7 @@ class NewsFragment :
         presenter.onNewsClick(article)
     }
 
-    override fun getRouter(): Router = newsRouter
+    override fun getRouter(): NewsRouter = newsCicerone.router
 
     override fun showTopNews(articles: List<Article>) {
         val itemDecorator = DividerItemDecoration(context!!, DividerItemDecoration.VERTICAL)
@@ -148,7 +142,7 @@ class NewsFragment :
     private fun getNavigator(): Navigator {
         return object : SupportFragmentNavigator(childFragmentManager, R.id.newsContainerView) {
             override fun exit() {
-                (activity as MainActivity).router.exit()
+                (activity as MainActivity).cicerone.router.exit()
             }
 
             override fun createFragment(screenKey: String?, data: Any?): Fragment? {

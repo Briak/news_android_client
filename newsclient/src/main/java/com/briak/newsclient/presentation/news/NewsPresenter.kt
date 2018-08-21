@@ -3,18 +3,24 @@ package com.briak.newsclient.presentation.news
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.briak.newsclient.entities.news.server.Article
+import com.briak.newsclient.model.di.news.NewsRouter
+import com.briak.newsclient.model.di.news.NewsScope
 import com.briak.newsclient.model.domain.news.NewsInteractor
+import com.briak.newsclient.model.system.Screens
 import com.briak.newsclient.presentation.base.ErrorHandler
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
+import ru.terrakok.cicerone.Cicerone
 import javax.inject.Inject
 
 @InjectViewState
-class NewsPresenter @Inject constructor(private var newsInteractor: NewsInteractor) : MvpPresenter<NewsView>() {
-
-    @Inject
-    lateinit var errorHandler: ErrorHandler
+@NewsScope
+class NewsPresenter @Inject constructor(
+        private val newsInteractor: NewsInteractor,
+        private val newsCicerone: Cicerone<NewsRouter>,
+        private val errorHandler: ErrorHandler
+) : MvpPresenter<NewsView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -22,11 +28,11 @@ class NewsPresenter @Inject constructor(private var newsInteractor: NewsInteract
         getTopNews()
     }
 
-    fun onNewsClick(news: Article) = newsInteractor.onNewsClick(news)
+    fun onNewsClick(news: Article) = newsCicerone.router.navigateTo(Screens.NEWS_DETAIL_SCREEN, news)
 
-    fun onFilterClick() = newsInteractor.onFilterClick()
+    fun onFilterClick() = newsCicerone.router.navigateTo(Screens.CATEGORIES_SCREEN)
 
-    fun onBackPressed() = newsInteractor.onBackPressed()
+    fun onBackPressed() = newsCicerone.router.exit()
 
     fun setCategory(category: String) {
         newsInteractor.setCategory(category)
