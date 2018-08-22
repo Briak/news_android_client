@@ -3,6 +3,8 @@ package com.briak.newsclient.ui.newsdetail
 import android.os.Bundle
 import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.R
 import com.briak.newsclient.entities.news.server.Article
 import com.briak.newsclient.extensions.isNotNullOrEmpty
@@ -13,14 +15,19 @@ import com.briak.newsclient.presentation.newsdetail.NewsDetailPresenter
 import com.briak.newsclient.presentation.newsdetail.NewsDetailView
 import com.briak.newsclient.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_news_detail.*
+import javax.inject.Inject
 
 
 class NewsDetailFragment :
         BaseFragment(),
         NewsDetailView {
 
+    @Inject
     @InjectPresenter
     lateinit var presenter: NewsDetailPresenter
+
+    @ProvidePresenter
+    fun provideNewsDetailPresenter(): NewsDetailPresenter = presenter
 
     override val layoutRes: Int = R.layout.fragment_news_detail
 
@@ -38,6 +45,8 @@ class NewsDetailFragment :
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        NewsClientApplication.plusNewsComponent().inject(this)
+
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState == null) {

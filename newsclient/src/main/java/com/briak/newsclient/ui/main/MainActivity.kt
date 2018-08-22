@@ -65,6 +65,12 @@ class MainActivity :
         super.onPause()
     }
 
+    override fun onDestroy() {
+        NewsClientApplication.clearNewsComponent()
+
+        super.onDestroy()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         NewsClientApplication.component.inject(this)
 

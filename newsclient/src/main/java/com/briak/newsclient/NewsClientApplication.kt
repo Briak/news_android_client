@@ -9,16 +9,16 @@ import com.briak.newsclient.model.di.news.*
 class NewsClientApplication : Application() {
     companion object {
         lateinit var component: ApplicationComponent
-        private var newsComponent: NewsComponent? = null
+        var newsComponent: NewsComponent? = null
 
-        fun plusNewsComponent(): NewsComponent =
-                if (newsComponent == null) {
-                    component
-                            .newsComponentBuilder()
-                            .build()
-                } else {
-                    newsComponent!!
-                }
+        fun plusNewsComponent(): NewsComponent {
+            if (newsComponent == null) {
+                newsComponent = component
+                        .newsComponentBuilder()
+                        .build()
+            }
+            return newsComponent!!
+        }
 
         fun clearNewsComponent() {
             newsComponent = null

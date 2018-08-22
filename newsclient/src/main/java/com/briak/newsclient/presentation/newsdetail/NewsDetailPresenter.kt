@@ -2,21 +2,18 @@ package com.briak.newsclient.presentation.newsdetail
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
-import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.model.di.news.NewsRouter
+import com.briak.newsclient.model.di.news.NewsScope
+import ru.terrakok.cicerone.Cicerone
 import javax.inject.Inject
 
 @InjectViewState
-class NewsDetailPresenter: MvpPresenter<NewsDetailView>() {
-
-    @Inject
-    lateinit var newsRouter: NewsRouter
+@NewsScope
+class NewsDetailPresenter @Inject constructor(
+        private val newsCicerone: Cicerone<NewsRouter>
+) : MvpPresenter<NewsDetailView>() {
 
     fun onBackPressed() {
-        newsRouter.exit()
-    }
-
-    init {
-        NewsClientApplication.plusNewsComponent().inject(this)
+        newsCicerone.router.exit()
     }
 }

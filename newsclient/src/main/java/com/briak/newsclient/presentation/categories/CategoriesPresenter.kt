@@ -5,15 +5,17 @@ import com.arellomobile.mvp.MvpPresenter
 import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.entities.news.presentation.Category
 import com.briak.newsclient.model.di.news.NewsRouter
+import com.briak.newsclient.model.di.news.NewsScope
 import com.briak.newsclient.model.domain.categories.CategoriesInteractor
-import ru.terrakok.cicerone.Router
+import ru.terrakok.cicerone.Cicerone
 import javax.inject.Inject
 
 @InjectViewState
-class CategoriesPresenter(private var router: NewsRouter): MvpPresenter<CategoriesView>() {
-
-    @Inject
-    lateinit var categoriesInteractor: CategoriesInteractor
+@NewsScope
+class CategoriesPresenter @Inject constructor(
+        private val newsCicerone: Cicerone<NewsRouter>,
+        private val categoriesInteractor: CategoriesInteractor
+) : MvpPresenter<CategoriesView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -22,11 +24,11 @@ class CategoriesPresenter(private var router: NewsRouter): MvpPresenter<Categori
     }
 
     fun back() {
-        router.exit()
+        newsCicerone.router.exit()
     }
 
     fun onCategoryClick(category: Category) {
-        router.exitWithResult(1001, category)
+        newsCicerone.router.exitWithResult(1001, category)
     }
 
     init {

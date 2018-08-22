@@ -7,27 +7,35 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.R
 import com.briak.newsclient.entities.news.presentation.Category
 import com.briak.newsclient.extensions.onClick
 import com.briak.newsclient.presentation.categories.CategoriesPresenter
 import com.briak.newsclient.presentation.categories.CategoriesView
 import com.briak.newsclient.ui.base.BaseFragment
-import com.briak.newsclient.ui.base.RouterProvider
 import kotlinx.android.synthetic.main.fragment_categories.*
+import javax.inject.Inject
 
 class CategoriesFragment:
         BaseFragment(),
         CategoryAdapter.OnCategoryClickListener,
         CategoriesView {
 
+    @Inject
     @InjectPresenter
     lateinit var presenter: CategoriesPresenter
 
     override val layoutRes: Int = R.layout.fragment_categories
 
     @ProvidePresenter
-    fun provideCategoriesPresenter(): CategoriesPresenter = CategoriesPresenter((parentFragment as RouterProvider).getRouter())
+    fun provideCategoriesPresenter(): CategoriesPresenter = presenter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        NewsClientApplication.plusNewsComponent().inject(this)
+
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

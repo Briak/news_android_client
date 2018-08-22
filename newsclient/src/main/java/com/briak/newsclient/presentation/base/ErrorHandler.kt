@@ -15,7 +15,9 @@ class ErrorHandler @Inject constructor(private val resourceManager: ResourceMana
             if (code == 400 || code == 401 || code == 429 || code == 500) {
                 val moshi = Moshi.Builder().build()
                 val jsonAdapter = moshi.adapter<ErrorResponse>(ErrorResponse::class.java)
-                val errorResponse = jsonAdapter.fromJson(String(error.response().errorBody()!!.source().readByteArray(), Charset.defaultCharset()))
+                val errorResponse = jsonAdapter.fromJson(String(
+                        error.response().errorBody()!!.source().readByteArray(),
+                        Charset.defaultCharset()))
                 return errorResponse.message
             } else {
                 return error.userMessage(resourceManager)

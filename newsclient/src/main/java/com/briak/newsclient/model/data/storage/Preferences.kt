@@ -5,7 +5,9 @@ import com.briak.newsclient.entities.news.presentation.Category
 import com.briak.newsclient.model.data.categories.CategoriesHolder
 import javax.inject.Inject
 
-class Preferences @Inject constructor(private val context: Context) : CategoriesHolder {
+class Preferences @Inject constructor(
+        private val context: Context
+) : CategoriesHolder {
     private val NEWS_DATA = "news data"
     private val CATEGORY = "category"
 
