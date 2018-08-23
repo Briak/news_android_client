@@ -9,7 +9,7 @@ import com.briak.newsclient.model.di.news.*
 class NewsClientApplication : Application() {
     companion object {
         lateinit var component: ApplicationComponent
-        var newsComponent: NewsComponent? = null
+        private var newsComponent: NewsComponent? = null
 
         fun plusNewsComponent(): NewsComponent {
             if (newsComponent == null) {
@@ -18,10 +18,6 @@ class NewsClientApplication : Application() {
                         .build()
             }
             return newsComponent!!
-        }
-
-        fun clearNewsComponent() {
-            newsComponent = null
         }
     }
 

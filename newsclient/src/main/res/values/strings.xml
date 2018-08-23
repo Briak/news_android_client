@@ -11,7 +11,7 @@
     <string name="category_science">Science</string>
     <string name="category_technology">Technology</string>
     <string name="category_sports">Sports</string>
-    <string name="welcome">Welcome to the piggy project for parsing RSS from https://newsapi.org</string>
+    <string name="welcome">Welcome to the project for parsing RSS from https://newsapi.org</string>
 
     <!--Error dialog-->
     <string name="ok">OK</string>

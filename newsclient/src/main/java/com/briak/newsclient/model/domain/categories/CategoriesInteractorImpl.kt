@@ -6,5 +6,6 @@ import javax.inject.Inject
 class CategoriesInteractorImpl @Inject constructor(
         private var categoriesHolder: CategoriesHolder
 ) : CategoriesInteractor {
+
     override fun getCategory(): String = categoriesHolder.category
 }

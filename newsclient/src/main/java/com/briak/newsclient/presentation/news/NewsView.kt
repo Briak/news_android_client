@@ -8,9 +8,9 @@ import com.briak.newsclient.entities.news.server.Article
 
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface NewsView: MvpView {
+    fun setTitle(title: String)
     fun showTopNews(articles: List<Article>)
     fun showProgress(show: Boolean)
-    fun setTitle(title: String)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun showMessage(message: String)

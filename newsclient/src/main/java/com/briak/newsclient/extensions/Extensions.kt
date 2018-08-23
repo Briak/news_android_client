@@ -12,10 +12,8 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.wang.avi.AVLoadingIndicatorView
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
-import kotlinx.coroutines.experimental.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
