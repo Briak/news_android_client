@@ -26,6 +26,7 @@ class MainActivity :
         MvpAppCompatActivity(),
         MainView {
 
+    @Inject
     @InjectPresenter
     lateinit var presenter: MainPresenter
 
@@ -33,7 +34,7 @@ class MainActivity :
     lateinit var cicerone: Cicerone<Router>
 
     @ProvidePresenter
-    fun provideMainPresenter(): MainPresenter = MainPresenter(cicerone.router)
+    fun provideMainPresenter(): MainPresenter = presenter
 
     private var newsFragment: NewsFragment? = null
     private var settingsFragment: AboutFragment? = null

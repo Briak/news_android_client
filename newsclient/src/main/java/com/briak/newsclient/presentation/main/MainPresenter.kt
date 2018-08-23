@@ -4,21 +4,25 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.model.system.Screens
+import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.Router
+import javax.inject.Inject
 
 @InjectViewState
-class MainPresenter(private val router: Router): MvpPresenter<MainView>() {
+class MainPresenter @Inject constructor(
+        private val cicerone: Cicerone<Router>
+) : MvpPresenter<MainView>() {
 
     fun onNewsTabClick() {
-        router.replaceScreen(Screens.NEWS_SCREEN)
+        cicerone.router.replaceScreen(Screens.NEWS_SCREEN)
     }
 
     fun onAboutTabClick() {
-        router.replaceScreen(Screens.SETTINGS_SCREEN)
+        cicerone.router.replaceScreen(Screens.SETTINGS_SCREEN)
     }
 
     fun onBackPressed() {
-        router.exit()
+        cicerone.router.exit()
     }
 
     init {
