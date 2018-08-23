@@ -1,14 +1,15 @@
 package com.briak.newsclient.entities.news.server
 
-import java.io.Serializable
 import java.util.*
 
 data class Article (
-        val source: Source,
-        val author: String?,
-        val title: String,
-        val description: String,
-        val url: String,
-        val urlToImage: String?,
-        val publishedAt: Date
-): Serializable
+        var source: Source?,
+        var author: String?,
+        var title: String?,
+        var description: String?,
+        var url: String?,
+        var urlToImage: String?,
+        var publishedAt: Date?
+) {
+    constructor() : this(null, null, null, null, null, null, Date())
+}

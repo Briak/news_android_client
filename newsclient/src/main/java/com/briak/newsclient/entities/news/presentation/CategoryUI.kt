@@ -2,7 +2,7 @@ package com.briak.newsclient.entities.news.presentation
 
 import com.briak.newsclient.R
 
-enum class Category {
+enum class CategoryUI {
     BUSINESS {
         override fun getStringValue(): Int = R.string.category_business
     },

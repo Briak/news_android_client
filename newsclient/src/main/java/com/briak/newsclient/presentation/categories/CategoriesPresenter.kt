@@ -3,7 +3,7 @@ package com.briak.newsclient.presentation.categories
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.briak.newsclient.NewsClientApplication
-import com.briak.newsclient.entities.news.presentation.Category
+import com.briak.newsclient.entities.news.presentation.CategoryUI
 import com.briak.newsclient.model.di.news.NewsRouter
 import com.briak.newsclient.model.di.news.NewsScope
 import com.briak.newsclient.model.domain.categories.CategoriesInteractor
@@ -27,7 +27,7 @@ class CategoriesPresenter @Inject constructor(
         newsCicerone.router.exit()
     }
 
-    fun onCategoryClick(category: Category) {
+    fun onCategoryClick(category: CategoryUI) {
         newsCicerone.router.exitWithResult(1001, category)
     }
 

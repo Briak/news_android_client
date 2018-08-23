@@ -9,7 +9,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.R
-import com.briak.newsclient.entities.news.presentation.Category
+import com.briak.newsclient.entities.news.presentation.CategoryUI
 import com.briak.newsclient.extensions.onClick
 import com.briak.newsclient.presentation.categories.CategoriesPresenter
 import com.briak.newsclient.presentation.categories.CategoriesView
@@ -45,7 +45,7 @@ class CategoriesFragment:
         }
     }
 
-    override fun onCategoryClick(category: Category) {
+    override fun onCategoryClick(category: CategoryUI) {
         presenter.onCategoryClick(category)
     }
 

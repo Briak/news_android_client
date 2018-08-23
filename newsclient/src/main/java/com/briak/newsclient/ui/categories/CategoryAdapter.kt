@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.briak.newsclient.R
-import com.briak.newsclient.entities.news.presentation.Category
+import com.briak.newsclient.entities.news.presentation.CategoryUI
 import com.briak.newsclient.extensions.Direction
 import com.briak.newsclient.extensions.onClick
 import com.briak.newsclient.extensions.removeDrawable
@@ -14,9 +14,9 @@ import kotlinx.android.synthetic.main.item_category.view.*
 
 class CategoryAdapter(private val listener: OnCategoryClickListener, private val selected: String) : RecyclerView.Adapter<CategoryAdapter.Holder>() {
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(Category.values()[position], selected)
+        holder.bind(CategoryUI.values()[position], selected)
         holder.itemView.onClick {
-            listener.onCategoryClick(Category.values()[position])
+            listener.onCategoryClick(CategoryUI.values()[position])
         }
     }
 
@@ -25,10 +25,10 @@ class CategoryAdapter(private val listener: OnCategoryClickListener, private val
         return Holder(view)
     }
 
-    override fun getItemCount(): Int = Category.values().size
+    override fun getItemCount(): Int = CategoryUI.values().size
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(category: Category, selected: String) = with(itemView) {
+        fun bind(category: CategoryUI, selected: String) = with(itemView) {
             nameView.apply {
                 setText(category.getStringValue())
                 if (category.name.toLowerCase() == selected.toLowerCase()) {
@@ -41,6 +41,6 @@ class CategoryAdapter(private val listener: OnCategoryClickListener, private val
     }
 
     interface OnCategoryClickListener {
-        fun onCategoryClick(category: Category)
+        fun onCategoryClick(category: CategoryUI)
     }
 }

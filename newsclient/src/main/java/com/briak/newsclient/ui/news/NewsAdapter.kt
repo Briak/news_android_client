@@ -6,11 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.briak.newsclient.R
-import com.briak.newsclient.entities.news.server.Article
+import com.briak.newsclient.entities.news.presentation.ArticleUI
 import com.briak.newsclient.extensions.*
 import kotlinx.android.synthetic.main.item_news.view.*
 
-class NewsAdapter(private val list: List<Article>,
+class NewsAdapter(private val list: List<ArticleUI>,
                   private val listener: OnNewsClickListener) : RecyclerView.Adapter<NewsAdapter.Holder>() {
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.bind(list[position])
@@ -27,16 +27,33 @@ class NewsAdapter(private val list: List<Article>,
     override fun getItemCount(): Int = list.size
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(news: Article) = with(itemView) {
-            titleView.text = news.title
-            authorView.text = news.author
-            authorView.visible(news.author.isNotNullOrEmpty())
-            publishedAtView.text = news.publishedAt.toShortDate()
+        fun bind(news: ArticleUI) = with(itemView) {
+            if (news.title.isNotNullOrEmpty()) {
+                titleView.text = news.title
+                titleView.visible(true)
+            } else {
+                titleView.visible(false)
+            }
+
+            if (news.author.isNotNullOrEmpty()) {
+                authorView.text = news.author
+                authorView.visible(true)
+            } else {
+                authorView.visible(false)
+            }
+
+            if (news.publishedAt != null) {
+                publishedAtView.text = news.publishedAt!!.toShortDate()
+                publishedAtView.visible(true)
+            } else {
+                publishedAtView.visible(false)
+            }
+
             iconView.loadImage(news.urlToImage, R.mipmap.ic_bananya_small, progressView, context)
         }
     }
 
     interface OnNewsClickListener {
-        fun onNewsClick(article: Article)
+        fun onNewsClick(article: ArticleUI)
     }
 }

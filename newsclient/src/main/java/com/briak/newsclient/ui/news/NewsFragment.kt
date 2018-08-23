@@ -10,8 +10,8 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.R
-import com.briak.newsclient.entities.news.presentation.Category
-import com.briak.newsclient.entities.news.server.Article
+import com.briak.newsclient.entities.news.presentation.ArticleUI
+import com.briak.newsclient.entities.news.presentation.CategoryUI
 import com.briak.newsclient.extensions.onClick
 import com.briak.newsclient.extensions.visible
 import com.briak.newsclient.model.di.news.NewsRouter
@@ -64,7 +64,7 @@ class NewsFragment :
     }
 
     override fun onResult(resultData: Any?) {
-        presenter.setCategory(activity!!.resources.getString((resultData as Category).getStringValue()))
+        presenter.setCategory(activity!!.resources.getString((resultData as CategoryUI).getStringValue()))
     }
 
     override fun setTitle(title: String) {
@@ -89,13 +89,13 @@ class NewsFragment :
         return true
     }
 
-    override fun onNewsClick(article: Article) {
+    override fun onNewsClick(article: ArticleUI) {
         presenter.onNewsClick(article)
     }
 
     override fun getRouter(): NewsRouter = newsCicerone.router
 
-    override fun showTopNews(articles: List<Article>) {
+    override fun showTopNews(articles: List<ArticleUI>) {
         val itemDecorator = DividerItemDecoration(context!!, DividerItemDecoration.VERTICAL)
         itemDecorator.setDrawable(ContextCompat.getDrawable(context!!, R.drawable.decorator_listview)!!)
 
@@ -147,7 +147,7 @@ class NewsFragment :
 
             override fun createFragment(screenKey: String?, data: Any?): Fragment? {
                 when (screenKey) {
-                    Screens.NEWS_DETAIL_SCREEN -> return NewsDetailFragment.getInstance(data as Article)
+                    Screens.NEWS_DETAIL_SCREEN -> return NewsDetailFragment.getInstance(data as ArticleUI)
                     Screens.CATEGORIES_SCREEN -> return CategoriesFragment()
                 }
 

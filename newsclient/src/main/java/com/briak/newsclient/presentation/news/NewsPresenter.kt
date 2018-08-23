@@ -2,7 +2,8 @@ package com.briak.newsclient.presentation.news
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
-import com.briak.newsclient.entities.news.server.Article
+import com.briak.newsclient.entities.mapper.ArticleMapper
+import com.briak.newsclient.entities.news.presentation.ArticleUI
 import com.briak.newsclient.model.di.news.NewsRouter
 import com.briak.newsclient.model.di.news.NewsScope
 import com.briak.newsclient.model.domain.news.NewsInteractor
@@ -19,7 +20,8 @@ import javax.inject.Inject
 class NewsPresenter @Inject constructor(
         private val newsInteractor: NewsInteractor,
         private val newsCicerone: Cicerone<NewsRouter>,
-        private val errorHandler: ErrorHandler
+        private val errorHandler: ErrorHandler,
+        private val articleMapper: ArticleMapper
 ) : MvpPresenter<NewsView>() {
 
     override fun onFirstViewAttach() {
@@ -28,7 +30,7 @@ class NewsPresenter @Inject constructor(
         getTopNews()
     }
 
-    fun onNewsClick(news: Article) = newsCicerone.router.navigateTo(Screens.NEWS_DETAIL_SCREEN, news)
+    fun onNewsClick(news: ArticleUI) = newsCicerone.router.navigateTo(Screens.NEWS_DETAIL_SCREEN, news)
 
     fun onFilterClick() = newsCicerone.router.navigateTo(Screens.CATEGORIES_SCREEN)
 
@@ -53,7 +55,7 @@ class NewsPresenter @Inject constructor(
             val request = async { newsInteractor.getTopNews() }
             try {
                 val result = request.await()
-                viewState.showTopNews(result.await().articles)
+                viewState.showTopNews(articleMapper.map(result.await().articles))
                 viewState.showProgress(false)
             } catch (e: Throwable) {
                 e.printStackTrace()
