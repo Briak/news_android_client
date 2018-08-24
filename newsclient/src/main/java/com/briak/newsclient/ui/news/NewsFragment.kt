@@ -130,7 +130,7 @@ class NewsFragment :
             presenter.onFilterClick()
         }
 
-        refreshNewsView.apply {
+        refreshNewsView?.apply {
             setColorSchemeResources(R.color.colorAccent)
 
             setOnRefreshListener {

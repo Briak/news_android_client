@@ -58,7 +58,6 @@ class NewsPresenter @Inject constructor(
                 viewState.showTopNews(articleMapper.map(result.await().articles))
                 viewState.showProgress(false)
             } catch (e: Throwable) {
-                e.printStackTrace()
                 viewState.showMessage(errorHandler.proceed(e))
                 viewState.showProgress(false)
             }

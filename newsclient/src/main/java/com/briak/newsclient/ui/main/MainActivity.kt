@@ -11,8 +11,10 @@ import com.briak.newsclient.presentation.main.MainPresenter
 import com.briak.newsclient.presentation.main.MainView
 import com.briak.newsclient.ui.about.AboutFragment
 import com.briak.newsclient.ui.base.BackButtonListener
+import com.briak.newsclient.ui.base.JobHolder
 import com.briak.newsclient.ui.news.NewsFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.experimental.Job
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.Router
@@ -24,6 +26,7 @@ import javax.inject.Inject
 
 class MainActivity :
         MvpAppCompatActivity(),
+        JobHolder,
         MainView {
 
     @Inject
@@ -39,6 +42,8 @@ class MainActivity :
     private var newsFragment: NewsFragment? = null
     private var settingsFragment: AboutFragment? = null
 
+    override val job: Job = Job()
+
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.mainContainerView)
         if (fragment != null
@@ -52,6 +57,12 @@ class MainActivity :
                 presenter.onBackPressed()
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        job.cancel()
     }
 
     override fun onResume() {

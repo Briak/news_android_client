@@ -12,7 +12,10 @@ import com.briak.newsclient.extensions.removeDrawable
 import com.briak.newsclient.extensions.setDrawable
 import kotlinx.android.synthetic.main.item_category.view.*
 
-class CategoryAdapter(private val listener: OnCategoryClickListener, private val selected: String) : RecyclerView.Adapter<CategoryAdapter.Holder>() {
+class CategoryAdapter(
+        private val listener: OnCategoryClickListener, private val selected: String
+) : RecyclerView.Adapter<CategoryAdapter.Holder>() {
+
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.bind(CategoryUI.values()[position], selected)
         holder.itemView.onClick {
