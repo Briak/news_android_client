@@ -34,7 +34,7 @@ fun View.visible(visible: Boolean) {
     this.visibility = if (visible) View.VISIBLE else View.GONE
 }
 
-fun Date.toShortDate(): String = SimpleDateFormat("EEE, MMMM d, yyyy", Locale("us")).format(this)
+fun Date.toShortDate(): String = SimpleDateFormat("EEE, MMMM d, yyyy", Locale("en_US")).format(this)
 
 fun String?.isNotNullOrEmpty(): Boolean = this != null && this.isNotEmpty()
 

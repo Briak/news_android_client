@@ -84,7 +84,7 @@ class NewsDetailFragment :
         if (article.author.isNotNullOrEmpty()) {
             authorView.text = article.author
         } else {
-            authorView.visible(false)
+            authorView.visibility = View.INVISIBLE
         }
 
         if (article.publishedAt != null) {

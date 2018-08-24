@@ -68,7 +68,7 @@ class NewsFragment :
     }
 
     override fun setTitle(title: String) {
-        newsToolbarTitleView.text = title
+        newsToolbarTitleView?.text = title
     }
 
     override fun onResume() {
@@ -100,7 +100,7 @@ class NewsFragment :
         itemDecorator.setDrawable(ContextCompat.getDrawable(context!!, R.drawable.decorator_listview)!!)
 
         launch(UI) {
-            newsListView.apply {
+            newsListView?.apply {
                 layoutManager = LinearLayoutManager(activity)
                 addItemDecoration(itemDecorator)
                 adapter = NewsAdapter(articles, this@NewsFragment)
@@ -117,16 +117,16 @@ class NewsFragment :
 
     override fun showProgress(show: Boolean) {
         launch(UI) {
-            newsProgressView.visible(show)
-            newsListView.visible(!show)
-            refreshNewsView.isRefreshing = false
+            newsProgressView?.visible(show)
+            newsListView?.visible(!show)
+            refreshNewsView?.isRefreshing = false
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        filterView.onClick {
+        filterView?.onClick {
             presenter.onFilterClick()
         }
 
