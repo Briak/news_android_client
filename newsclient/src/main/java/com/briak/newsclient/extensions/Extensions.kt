@@ -14,6 +14,8 @@ import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
+import kotlinx.coroutines.experimental.test.TestCoroutineContext
+import kotlinx.coroutines.experimental.test.withTestContext
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -38,8 +40,8 @@ val backgroundPool: CoroutineDispatcher by lazy {
     }
 }
 
-suspend fun <T> asyncTask(function: suspend () -> T): T {
-    return withContext(backgroundPool) { function() }
+suspend fun <T> asyncTask(function: suspend () -> T, dispatcher: CoroutineDispatcher): T {
+    return withContext(dispatcher) { function() }
 }
 
 fun View.visible(visible: Boolean) {

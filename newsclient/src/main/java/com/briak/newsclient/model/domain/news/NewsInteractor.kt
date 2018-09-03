@@ -5,7 +5,7 @@ import kotlinx.coroutines.experimental.Deferred
 
 interface NewsInteractor {
     suspend fun getTopNews(): RSS
-    suspend fun getAllNews(): RSS
     fun setCategory(category: String)
     fun getCategory(): String
+    suspend fun doSomething(): Int
 }

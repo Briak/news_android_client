@@ -15,14 +15,13 @@ class NewsInteractorImpl @Inject constructor(
     override suspend fun getTopNews(): RSS =
             repository.getNews("us").await()
 
-    override suspend fun getAllNews(): RSS =
-            repository.getNews("us").await()
-
     override fun setCategory(category: String) {
         categoriesHolder.category = category
     }
 
     override fun getCategory(): String =
             categoriesHolder.category
+
+    override suspend fun doSomething(): Int = 4
 
 }

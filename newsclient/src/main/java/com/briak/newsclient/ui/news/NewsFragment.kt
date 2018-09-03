@@ -12,6 +12,7 @@ import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.R
 import com.briak.newsclient.entities.news.presentation.ArticleUI
 import com.briak.newsclient.entities.news.presentation.CategoryUI
+import com.briak.newsclient.extensions.backgroundPool
 import com.briak.newsclient.extensions.onClick
 import com.briak.newsclient.extensions.visible
 import com.briak.newsclient.model.di.news.NewsRouter
@@ -26,6 +27,7 @@ import com.briak.newsclient.ui.categories.CategoriesFragment
 import com.briak.newsclient.ui.main.MainActivity
 import com.briak.newsclient.ui.newsdetail.NewsDetailFragment
 import kotlinx.android.synthetic.main.fragment_news.*
+import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import ru.terrakok.cicerone.Cicerone
@@ -52,6 +54,8 @@ class NewsFragment :
 
     @ProvidePresenter
     fun provideNewsPresenter(): NewsPresenter = presenter
+
+    private lateinit var newsJob: Job
 
     override val layoutRes: Int = R.layout.fragment_news
 
@@ -91,6 +95,18 @@ class NewsFragment :
 
     override fun onNewsClick(article: ArticleUI) {
         presenter.onNewsClick(article)
+    }
+
+    override fun startNewsJob(refresh: Boolean) {
+        newsJob = launch(backgroundPool) {
+            presenter.topNews(refresh)
+        }
+    }
+
+    override fun onDestroy() {
+        newsJob.cancel()
+
+        super.onDestroy()
     }
 
     override fun getRouter(): NewsRouter = newsCicerone.router
@@ -134,7 +150,7 @@ class NewsFragment :
             setColorSchemeResources(R.color.colorAccent)
 
             setOnRefreshListener {
-                presenter.getTopNews(refresh = true)
+                startNewsJob(true)
             }
         }
     }

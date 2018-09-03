@@ -11,6 +11,7 @@ interface NewsView: MvpView {
     fun setTitle(title: String)
     fun showTopNews(articles: List<ArticleUI>)
     fun showProgress(show: Boolean)
+    fun startNewsJob(refresh: Boolean)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun showMessage(message: String)

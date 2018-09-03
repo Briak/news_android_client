@@ -8,7 +8,7 @@ import retrofit2.HttpException
 import java.nio.charset.Charset
 import javax.inject.Inject
 
-class ErrorHandler @Inject constructor(private val resourceManager: ResourceManager) {
+open class ErrorHandler @Inject constructor(private val resourceManager: ResourceManager) {
     fun proceed(error: Throwable): String {
         if (error is HttpException) {
             val code = error.code()

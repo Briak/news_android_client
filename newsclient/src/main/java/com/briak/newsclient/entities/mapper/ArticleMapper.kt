@@ -4,7 +4,7 @@ import com.briak.newsclient.entities.news.presentation.ArticleUI
 import com.briak.newsclient.entities.news.server.Article
 import javax.inject.Inject
 
-class ArticleMapper @Inject constructor() : Mapper<Article, ArticleUI>() {
+open class ArticleMapper @Inject constructor() : Mapper<Article, ArticleUI>() {
     override fun map(value: Article): ArticleUI {
         val articleUI = ArticleUI()
         articleUI.author = value.author
