@@ -13,8 +13,6 @@ class NewsRepositoryImpl @Inject constructor(
         private var newsHolder: CategoriesHolder
 ) : NewsRepository {
 
-    override fun getNews(
-            country: String
-    ): Deferred<RSS> =
+    override fun getNews(country: String): Deferred<RSS> =
             newsApi.getHeadliners(country, newsHolder.category)
 }

@@ -10,7 +10,7 @@ import com.briak.newsclient.ui.base.JobHolder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.wang.avi.AVLoadingIndicatorView
-import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
@@ -29,6 +29,18 @@ fun View.onClick(action: suspend (View) -> Unit) {
 
 val View.contextJob: Job?
     get() = (context as? JobHolder)?.job
+
+val backgroundPool: CoroutineDispatcher by lazy {
+    val numProcessors = Runtime.getRuntime().availableProcessors()
+    when {
+        numProcessors <= 2 -> newFixedThreadPoolContext(2, "background")
+        else -> CommonPool
+    }
+}
+
+suspend fun <T> asyncTask(function: suspend () -> T): T {
+    return withContext(backgroundPool) { function() }
+}
 
 fun View.visible(visible: Boolean) {
     this.visibility = if (visible) View.VISIBLE else View.GONE

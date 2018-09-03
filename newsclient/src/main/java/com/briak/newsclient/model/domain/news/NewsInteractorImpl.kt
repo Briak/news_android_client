@@ -4,7 +4,6 @@ import com.briak.newsclient.entities.news.server.RSS
 import com.briak.newsclient.model.data.categories.CategoriesHolder
 import com.briak.newsclient.model.di.news.NewsScope
 import com.briak.newsclient.model.repositories.news.NewsRepository
-import kotlinx.coroutines.experimental.Deferred
 import javax.inject.Inject
 
 @NewsScope
@@ -13,11 +12,11 @@ class NewsInteractorImpl @Inject constructor(
         private var categoriesHolder: CategoriesHolder
 ) : NewsInteractor {
 
-    override fun getTopNews(): Deferred<RSS> =
-            repository.getNews("us")
+    override suspend fun getTopNews(): RSS =
+            repository.getNews("us").await()
 
-    override fun getAllNews(): Deferred<RSS> =
-            repository.getNews("us")
+    override suspend fun getAllNews(): RSS =
+            repository.getNews("us").await()
 
     override fun setCategory(category: String) {
         categoriesHolder.category = category
