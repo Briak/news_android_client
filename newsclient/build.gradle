@@ -41,6 +41,7 @@ dependencies {
 
     //Mockito
     testImplementation 'org.mockito:mockito-core:2.20.1'
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-alpha04"
 
     //MVP Moxy
     implementation 'com.arello-mobile:moxy-app-compat:1.5.3'

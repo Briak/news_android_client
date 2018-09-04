@@ -40,10 +40,6 @@ val backgroundPool: CoroutineDispatcher by lazy {
     }
 }
 
-suspend fun <T> asyncTask(function: suspend () -> T, dispatcher: CoroutineDispatcher): T {
-    return withContext(dispatcher) { function() }
-}
-
 fun View.visible(visible: Boolean) {
     this.visibility = if (visible) View.VISIBLE else View.GONE
 }

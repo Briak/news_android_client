@@ -12,7 +12,6 @@ import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.R
 import com.briak.newsclient.entities.news.presentation.ArticleUI
 import com.briak.newsclient.entities.news.presentation.CategoryUI
-import com.briak.newsclient.extensions.backgroundPool
 import com.briak.newsclient.extensions.onClick
 import com.briak.newsclient.extensions.visible
 import com.briak.newsclient.model.di.news.NewsRouter
@@ -98,8 +97,8 @@ class NewsFragment :
     }
 
     override fun startNewsJob(refresh: Boolean) {
-        newsJob = launch(backgroundPool) {
-            presenter.topNews(refresh)
+        newsJob = launch(UI) {
+            presenter.getTopNews(refresh)
         }
     }
 

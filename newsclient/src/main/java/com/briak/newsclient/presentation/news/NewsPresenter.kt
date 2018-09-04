@@ -43,14 +43,14 @@ class NewsPresenter @Inject constructor(
         viewState.startNewsJob(false)
     }
 
-    suspend fun topNews(refresh: Boolean) {
+    suspend fun getTopNews(refresh: Boolean) {
         viewState.showProgress(!refresh)
 
         try {
             withContext(backgroundPool) {
                 newsInteractor.getTopNews()
-            }.let { list ->
-                viewState.showTopNews(articleMapper.map(list.articles))
+            }.let { articles ->
+                viewState.showTopNews(articleMapper.map(articles))
                 viewState.showProgress(false)
             }
         } catch (e: Throwable) {
