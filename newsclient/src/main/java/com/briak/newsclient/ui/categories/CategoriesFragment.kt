@@ -43,6 +43,8 @@ class CategoriesFragment:
         closeView.onClick {
             presenter.back()
         }
+
+        presenter.setSelectedCategory()
     }
 
     override fun onCategoryClick(category: CategoryUI) {

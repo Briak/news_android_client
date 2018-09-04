@@ -17,9 +17,7 @@ class CategoriesPresenter @Inject constructor(
         private val categoriesInteractor: CategoriesInteractor
 ) : MvpPresenter<CategoriesView>() {
 
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
-
+    fun setSelectedCategory() {
         viewState.setSelectedCategory(categoriesInteractor.getCategory())
     }
 
