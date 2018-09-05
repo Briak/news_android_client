@@ -27,7 +27,7 @@ class NewsPresenter @Inject constructor(
         super.onFirstViewAttach()
 
         viewState.setTitle(newsInteractor.getCategory())
-        viewState.startNewsJob(false)
+        viewState.startNewsJob(false, null)
     }
 
     fun onNewsClick(news: ArticleUI) = newsCicerone.router.navigateTo(Screens.NEWS_DETAIL_SCREEN, news)
@@ -40,15 +40,15 @@ class NewsPresenter @Inject constructor(
         newsInteractor.setCategory(category)
         viewState.setTitle(newsInteractor.getCategory())
 
-        viewState.startNewsJob(false)
+        viewState.startNewsJob(false, null)
     }
 
-    suspend fun getTopNews(refresh: Boolean) {
+    suspend fun getTopNews(refresh: Boolean, query: String?) {
         viewState.showProgress(!refresh)
 
         try {
             withContext(backgroundPool) {
-                newsInteractor.getTopNews()
+                newsInteractor.getTopNews(query)
             }.let { articles ->
                 viewState.showTopNews(articleMapper.map(articles))
                 viewState.showEmpty(articles.isEmpty())

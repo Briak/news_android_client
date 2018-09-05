@@ -12,8 +12,8 @@ class NewsInteractorImpl @Inject constructor(
         private var categoriesHolder: CategoriesHolder
 ) : NewsInteractor {
 
-    override suspend fun getTopNews(): List<Article> =
-            repository.getNews("us").await().articles
+    override suspend fun getTopNews(query: String?): List<Article> =
+            repository.getNews("us", query).await().articles
 
     override fun setCategory(category: String) {
         categoriesHolder.category = category

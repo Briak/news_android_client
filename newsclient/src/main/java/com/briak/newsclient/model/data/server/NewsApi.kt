@@ -15,6 +15,7 @@ interface NewsApi {
     fun getHeadliners(
             @Query("country") country: String,
             @Query("category") category: String,
+            @Query("q") query: String?,
             @Query("apiKey") apiKey: String = API_KEY
     ): Deferred<RSS>
 }

@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.SearchView
 import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
@@ -12,6 +13,7 @@ import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.R
 import com.briak.newsclient.entities.news.presentation.ArticleUI
 import com.briak.newsclient.entities.news.presentation.CategoryUI
+import com.briak.newsclient.extensions.isNotNullOrEmpty
 import com.briak.newsclient.extensions.onClick
 import com.briak.newsclient.extensions.visible
 import com.briak.newsclient.model.di.news.NewsRouter
@@ -96,9 +98,9 @@ class NewsFragment :
         presenter.onNewsClick(article)
     }
 
-    override fun startNewsJob(refresh: Boolean) {
+    override fun startNewsJob(refresh: Boolean, query: String?) {
         newsJob = launch(UI) {
-            presenter.getTopNews(refresh)
+            presenter.getTopNews(refresh, query)
         }
     }
 
@@ -153,9 +155,28 @@ class NewsFragment :
             setColorSchemeResources(R.color.colorAccent)
 
             setOnRefreshListener {
-                startNewsJob(true)
+                startNewsJob(true, null)
             }
         }
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText.isNotNullOrEmpty()) {
+                    if (newText!!.length >= 2) {
+                        startNewsJob(false, newText)
+                    } else if (newText.isNotEmpty()) {
+                        startNewsJob(false, null)
+                    }
+                }
+
+                return true
+            }
+
+        })
     }
 
     override fun showEmpty(show: Boolean) {

@@ -27,8 +27,19 @@
             android:paddingStart="16dp"
             android:src="@mipmap/ic_filter"
             android:tint="@android:color/white"
-
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <android.support.v7.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            app:closeIcon="@mipmap/ic_close_white"
+            app:defaultQueryHint="@string/search_articles"
+            app:layout_constraintEnd_toStartOf="@id/filterView"
+            app:queryBackground="@drawable/background_search_view"
+            app:searchHintIcon="@mipmap/ic_search"
+            app:searchIcon="@mipmap/ic_search" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout

@@ -49,9 +49,9 @@ class NewsPresenterTest {
             val newsList = mutableListOf<Article>()
             newsList.add(Article())
 
-            whenever(newsInteractor.getTopNews()).thenReturn(newsList)
+            whenever(newsInteractor.getTopNews("")).thenReturn(newsList)
 
-            newsPresenter.getTopNews(false)
+            newsPresenter.getTopNews(false, "")
 
             verify(newsViewState).showTopNews(articleMapper.map(newsList))
             verify(newsViewState).showProgress(false)
