@@ -51,6 +51,7 @@ class NewsPresenter @Inject constructor(
                 newsInteractor.getTopNews()
             }.let { articles ->
                 viewState.showTopNews(articleMapper.map(articles))
+                viewState.showEmpty(articles.isEmpty())
                 viewState.showProgress(false)
             }
         } catch (e: Throwable) {

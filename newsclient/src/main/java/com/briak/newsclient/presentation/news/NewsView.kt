@@ -12,7 +12,7 @@ interface NewsView: MvpView {
     fun setTitle(title: String)
     fun showTopNews(articles: List<ArticleUI>)
     fun showProgress(show: Boolean)
-
+    fun showEmpty(show: Boolean)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun showMessage(message: String)

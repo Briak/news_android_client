@@ -135,6 +135,10 @@ class NewsFragment :
             newsProgressView?.visible(show)
             newsListView?.visible(!show)
             refreshNewsView?.isRefreshing = false
+
+            if (show) {
+                emptyView?.visible(false)
+            }
         }
     }
 
@@ -152,6 +156,11 @@ class NewsFragment :
                 startNewsJob(true)
             }
         }
+    }
+
+    override fun showEmpty(show: Boolean) {
+        emptyView.visible(show)
+        newsListView.visible(!show)
     }
 
     private fun getNavigator(): Navigator {
