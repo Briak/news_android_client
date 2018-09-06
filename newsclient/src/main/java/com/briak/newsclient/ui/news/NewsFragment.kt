@@ -70,6 +70,12 @@ class NewsFragment :
 
     override fun onResult(resultData: Any?) {
         presenter.setCategory(activity!!.resources.getString((resultData as CategoryUI).getStringValue()))
+        closeSearchView()
+    }
+
+    private fun closeSearchView() {
+        searchView.setQuery("", false)
+        searchView.isIconified = true
     }
 
     override fun setTitle(title: String) {
@@ -157,6 +163,17 @@ class NewsFragment :
             setOnRefreshListener {
                 startNewsJob(true, null)
             }
+        }
+
+        searchView.setOnSearchClickListener {
+            newsToolbarTitleView.visibility = View.INVISIBLE
+        }
+
+        searchView.setOnCloseListener {
+            startNewsJob(false, null)
+            newsToolbarTitleView.visibility = View.VISIBLE
+
+            false
         }
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
