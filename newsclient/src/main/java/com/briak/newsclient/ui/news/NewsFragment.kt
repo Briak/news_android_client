@@ -80,6 +80,7 @@ class NewsFragment :
 
     override fun setTitle(title: String) {
         newsToolbarTitleView?.text = title
+        newsToolbarTitleView.visible(searchView.isIconified)
     }
 
     override fun onResume() {
