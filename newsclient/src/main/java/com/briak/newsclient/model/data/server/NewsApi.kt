@@ -15,7 +15,17 @@ interface NewsApi {
     fun getHeadliners(
             @Query("country") country: String,
             @Query("category") category: String,
-            @Query("q") query: String?,
             @Query("apiKey") apiKey: String = API_KEY
     ): Deferred<RSS>
+
+    @GET("$API_PATH/everything")
+    fun getEverything(
+            @Query("q") query: String?,
+            @Query("from") fromDate: String?,
+            @Query("to") toDate: String?,
+            @Query("domains") domain: String = "wsj.com,nytimes.com",
+            @Query("apiKey") apiKey: String = API_KEY
+    ): Deferred<RSS>
+
+
 }

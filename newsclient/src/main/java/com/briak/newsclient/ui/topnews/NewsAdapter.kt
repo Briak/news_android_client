@@ -1,4 +1,4 @@
-package com.briak.newsclient.ui.news
+package com.briak.newsclient.ui.topnews
 
 
 import android.support.v7.widget.RecyclerView

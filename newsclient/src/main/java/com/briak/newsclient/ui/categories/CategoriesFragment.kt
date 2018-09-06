@@ -32,7 +32,7 @@ class CategoriesFragment:
     fun provideCategoriesPresenter(): CategoriesPresenter = presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        NewsClientApplication.plusNewsComponent().inject(this)
+        NewsClientApplication.plusTopNewsComponent().inject(this)
 
         super.onCreate(savedInstanceState)
     }

@@ -43,7 +43,7 @@ class NewsDetailFragment :
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        NewsClientApplication.plusNewsComponent().inject(this)
+        NewsClientApplication.plusTopNewsComponent().inject(this)
 
         super.onCreate(savedInstanceState)
 

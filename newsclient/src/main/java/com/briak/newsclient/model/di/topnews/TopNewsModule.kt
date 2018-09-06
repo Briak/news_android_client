@@ -1,16 +1,16 @@
-package com.briak.newsclient.model.di.news
+package com.briak.newsclient.model.di.topnews
 
 import com.arellomobile.mvp.MvpPresenter
 import com.briak.newsclient.model.domain.categories.CategoriesInteractor
 import com.briak.newsclient.model.domain.categories.CategoriesInteractorImpl
-import com.briak.newsclient.model.domain.news.NewsInteractor
-import com.briak.newsclient.model.domain.news.NewsInteractorImpl
+import com.briak.newsclient.model.domain.topnews.TopNewsInteractor
+import com.briak.newsclient.model.domain.topnews.TopNewsInteractorImpl
 import com.briak.newsclient.model.repositories.news.NewsRepository
 import com.briak.newsclient.model.repositories.news.NewsRepositoryImpl
 import com.briak.newsclient.presentation.categories.CategoriesPresenter
 import com.briak.newsclient.presentation.categories.CategoriesView
-import com.briak.newsclient.presentation.news.NewsPresenter
-import com.briak.newsclient.presentation.news.NewsView
+import com.briak.newsclient.presentation.topnews.TopNewsPresenter
+import com.briak.newsclient.presentation.topnews.TopNewsView
 import com.briak.newsclient.presentation.newsdetail.NewsDetailPresenter
 import com.briak.newsclient.presentation.newsdetail.NewsDetailView
 import dagger.Binds
@@ -19,41 +19,41 @@ import dagger.Provides
 import ru.terrakok.cicerone.Cicerone
 
 @Module
-abstract class NewsModule {
+abstract class TopNewsModule {
     @Binds
-    @NewsScope
+    @TopNewsScope
     abstract fun provideNewsRepository(newsRepository: NewsRepositoryImpl): NewsRepository
 
     @Binds
-    @NewsScope
-    abstract fun provideNewsInteractor(newsInteractor: NewsInteractorImpl): NewsInteractor
+    @TopNewsScope
+    abstract fun provideTopNewsInteractor(newsInteractor: TopNewsInteractorImpl): TopNewsInteractor
 
     @Binds
-    @NewsScope
-    abstract fun provideNewsPresenter(newsPresenter: NewsPresenter): MvpPresenter<NewsView>
+    @TopNewsScope
+    abstract fun provideTopNewsPresenter(newsPresenter: TopNewsPresenter): MvpPresenter<TopNewsView>
 
     @Binds
-    @NewsScope
+    @TopNewsScope
     abstract fun provideNewsDetailPresenter(newsDetailPresenter: NewsDetailPresenter): MvpPresenter<NewsDetailView>
 
     @Binds
-    @NewsScope
+    @TopNewsScope
     abstract fun provideCategoriesInteractor(categoriesInteractor: CategoriesInteractorImpl): CategoriesInteractor
 
     @Binds
-    @NewsScope
+    @TopNewsScope
     abstract fun provideCategoriesPresenter(categoriesPresenter: CategoriesPresenter): MvpPresenter<CategoriesView>
 
     @Module
     companion object {
         @JvmStatic
         @Provides
-        @NewsScope
-        fun provideNewsRouter(): NewsRouter = NewsRouter()
+        @TopNewsScope
+        fun provideTopNewsRouter(): TopNewsRouter = TopNewsRouter()
 
         @JvmStatic
         @Provides
-        @NewsScope
-        fun provideNewsCicerone(newsRouter: NewsRouter): Cicerone<NewsRouter> = Cicerone.create(newsRouter)
+        @TopNewsScope
+        fun provideTopNewsCicerone(newsRouter: TopNewsRouter): Cicerone<TopNewsRouter> = Cicerone.create(newsRouter)
     }
 }

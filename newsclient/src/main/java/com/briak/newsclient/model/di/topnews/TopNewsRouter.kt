@@ -1,15 +1,14 @@
-package com.briak.newsclient.model.di.news
+package com.briak.newsclient.model.di.topnews
 
 import ru.terrakok.cicerone.BaseRouter
 import ru.terrakok.cicerone.Navigator
-import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.commands.*
 import ru.terrakok.cicerone.result.ResultListener
 import java.util.HashMap
 import javax.inject.Inject
 
-@NewsScope
-class NewsRouter @Inject constructor(): BaseRouter() {
+@TopNewsScope
+class TopNewsRouter @Inject constructor(): BaseRouter() {
     private val resultListeners = HashMap<Int, ResultListener>()
 
     /**

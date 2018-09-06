@@ -1,11 +1,10 @@
-package com.briak.newsclient.ui.news
+package com.briak.newsclient.ui.topnews
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SearchView
 import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
@@ -13,13 +12,12 @@ import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.R
 import com.briak.newsclient.entities.news.presentation.ArticleUI
 import com.briak.newsclient.entities.news.presentation.CategoryUI
-import com.briak.newsclient.extensions.isNotNullOrEmpty
 import com.briak.newsclient.extensions.onClick
 import com.briak.newsclient.extensions.visible
-import com.briak.newsclient.model.di.news.NewsRouter
+import com.briak.newsclient.model.di.topnews.TopNewsRouter
 import com.briak.newsclient.model.system.Screens
-import com.briak.newsclient.presentation.news.NewsPresenter
-import com.briak.newsclient.presentation.news.NewsView
+import com.briak.newsclient.presentation.topnews.TopNewsPresenter
+import com.briak.newsclient.presentation.topnews.TopNewsView
 import com.briak.newsclient.ui.base.BackButtonListener
 import com.briak.newsclient.ui.base.BaseFragment
 import com.briak.newsclient.ui.base.ErrorDialogFragment
@@ -27,7 +25,7 @@ import com.briak.newsclient.ui.base.RouterProvider
 import com.briak.newsclient.ui.categories.CategoriesFragment
 import com.briak.newsclient.ui.main.MainActivity
 import com.briak.newsclient.ui.newsdetail.NewsDetailFragment
-import kotlinx.android.synthetic.main.fragment_news.*
+import kotlinx.android.synthetic.main.fragment_top_news.*
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -38,30 +36,30 @@ import ru.terrakok.cicerone.result.ResultListener
 import javax.inject.Inject
 
 
-class NewsFragment :
+class TopNewsFragment :
         BaseFragment(),
-        NewsView,
+        TopNewsView,
         NewsAdapter.OnNewsClickListener,
         BackButtonListener,
         RouterProvider,
         ResultListener {
 
     @Inject
-    lateinit var newsCicerone: Cicerone<NewsRouter>
+    lateinit var newsCicerone: Cicerone<TopNewsRouter>
 
     @Inject
     @InjectPresenter
-    lateinit var presenter: NewsPresenter
+    lateinit var presenter: TopNewsPresenter
 
     @ProvidePresenter
-    fun provideNewsPresenter(): NewsPresenter = presenter
+    fun provideNewsPresenter(): TopNewsPresenter = presenter
 
     private lateinit var newsJob: Job
 
-    override val layoutRes: Int = R.layout.fragment_news
+    override val layoutRes: Int = R.layout.fragment_top_news
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        NewsClientApplication.plusNewsComponent().inject(this)
+        NewsClientApplication.plusTopNewsComponent().inject(this)
 
         super.onCreate(savedInstanceState)
 
@@ -70,17 +68,10 @@ class NewsFragment :
 
     override fun onResult(resultData: Any?) {
         presenter.setCategory(activity!!.resources.getString((resultData as CategoryUI).getStringValue()))
-        closeSearchView()
-    }
-
-    private fun closeSearchView() {
-        searchView.setQuery("", false)
-        searchView.isIconified = true
     }
 
     override fun setTitle(title: String) {
         newsToolbarTitleView?.text = title
-        newsToolbarTitleView.visible(searchView.isIconified)
     }
 
     override fun onResume() {
@@ -105,9 +96,9 @@ class NewsFragment :
         presenter.onNewsClick(article)
     }
 
-    override fun startNewsJob(refresh: Boolean, query: String?) {
+    override fun startNewsJob(refresh: Boolean) {
         newsJob = launch(UI) {
-            presenter.getTopNews(refresh, query)
+            presenter.getTopNews(refresh)
         }
     }
 
@@ -117,7 +108,7 @@ class NewsFragment :
         super.onDestroy()
     }
 
-    override fun getRouter(): NewsRouter = newsCicerone.router
+    override fun getRouter(): TopNewsRouter = newsCicerone.router
 
     override fun showTopNews(articles: List<ArticleUI>) {
         val itemDecorator = DividerItemDecoration(context!!, DividerItemDecoration.VERTICAL)
@@ -127,7 +118,7 @@ class NewsFragment :
             newsListView?.apply {
                 layoutManager = LinearLayoutManager(activity)
                 addItemDecoration(itemDecorator)
-                adapter = NewsAdapter(articles, this@NewsFragment)
+                adapter = NewsAdapter(articles, this@TopNewsFragment)
             }
         }
     }
@@ -162,39 +153,9 @@ class NewsFragment :
             setColorSchemeResources(R.color.colorAccent)
 
             setOnRefreshListener {
-                startNewsJob(true, null)
+                startNewsJob(true)
             }
         }
-
-        searchView.setOnSearchClickListener {
-            newsToolbarTitleView.visibility = View.INVISIBLE
-        }
-
-        searchView.setOnCloseListener {
-            startNewsJob(false, null)
-            newsToolbarTitleView.visibility = View.VISIBLE
-
-            false
-        }
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText.isNotNullOrEmpty()) {
-                    if (newText!!.length >= 2) {
-                        startNewsJob(false, newText)
-                    } else if (newText.isNotEmpty()) {
-                        startNewsJob(false, null)
-                    }
-                }
-
-                return true
-            }
-
-        })
     }
 
     override fun showEmpty(show: Boolean) {
@@ -214,7 +175,7 @@ class NewsFragment :
                     Screens.CATEGORIES_SCREEN -> return CategoriesFragment()
                 }
 
-                return this@NewsFragment
+                return this@TopNewsFragment
             }
 
             override fun showSystemMessage(message: String?) {

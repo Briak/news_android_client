@@ -1,4 +1,4 @@
-package com.briak.newsclient.presentation.news
+package com.briak.newsclient.presentation.topnews
 
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
@@ -8,7 +8,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.briak.newsclient.entities.news.presentation.ArticleUI
 
 @StateStrategyType(AddToEndSingleStrategy::class)
-interface NewsView: MvpView {
+interface TopNewsView: MvpView {
     fun setTitle(title: String)
     fun showTopNews(articles: List<ArticleUI>)
     fun showProgress(show: Boolean)
@@ -18,5 +18,5 @@ interface NewsView: MvpView {
     fun showMessage(message: String)
 
     @StateStrategyType(SkipStrategy::class)
-    fun startNewsJob(refresh: Boolean, query: String?)
+    fun startNewsJob(refresh: Boolean)
 }

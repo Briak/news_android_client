@@ -1,23 +1,35 @@
 package com.briak.newsclient
 
 import android.app.Application
+import com.briak.newsclient.model.di.allnews.AllNewsComponent
 import com.briak.newsclient.model.di.application.ApplicationComponent
 import com.briak.newsclient.model.di.application.ApplicationModule
 import com.briak.newsclient.model.di.application.DaggerApplicationComponent
-import com.briak.newsclient.model.di.news.*
+import com.briak.newsclient.model.di.topnews.TopNewsComponent
 
 class NewsClientApplication : Application() {
     companion object {
         lateinit var component: ApplicationComponent
-        private var newsComponent: NewsComponent? = null
+        private var topNewsComponent: TopNewsComponent? = null
+        private var allNewsComponent: AllNewsComponent? = null
 
-        fun plusNewsComponent(): NewsComponent {
-            if (newsComponent == null) {
-                newsComponent = component
-                        .newsComponentBuilder()
+        fun plusTopNewsComponent(): TopNewsComponent {
+            if (topNewsComponent == null) {
+                topNewsComponent = component
+                        .topNewsComponentBuilder()
                         .build()
             }
-            return newsComponent!!
+            return topNewsComponent!!
+        }
+
+        fun plusAllNewsComponent(): AllNewsComponent {
+            if (allNewsComponent == null) {
+                allNewsComponent = component
+                        .allNewsComponentBuilder()
+                        .build()
+            }
+
+            return allNewsComponent!!
         }
     }
 

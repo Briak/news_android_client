@@ -10,9 +10,10 @@ import com.briak.newsclient.model.system.Screens
 import com.briak.newsclient.presentation.main.MainPresenter
 import com.briak.newsclient.presentation.main.MainView
 import com.briak.newsclient.ui.about.AboutFragment
+import com.briak.newsclient.ui.allnews.AllNewsFragment
 import com.briak.newsclient.ui.base.BackButtonListener
 import com.briak.newsclient.ui.base.JobHolder
-import com.briak.newsclient.ui.news.NewsFragment
+import com.briak.newsclient.ui.topnews.TopNewsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.experimental.Job
 import ru.terrakok.cicerone.Cicerone
@@ -39,7 +40,8 @@ class MainActivity :
     @ProvidePresenter
     fun provideMainPresenter(): MainPresenter = presenter
 
-    private var newsFragment: NewsFragment? = null
+    private var topNewsFragment: TopNewsFragment? = null
+    private var allNewsFragment: AllNewsFragment? = null
     private var settingsFragment: AboutFragment? = null
 
     override val job: Job = Job()
@@ -87,13 +89,17 @@ class MainActivity :
         initFragments()
 
         if (savedInstanceState == null) {
-            presenter.onNewsTabClick()
+            presenter.onTopNewsTabClick()
         }
 
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when {
-                item.itemId == R.id.action_news -> {
-                    presenter.onNewsTabClick()
+                item.itemId == R.id.action_top_news -> {
+                    presenter.onTopNewsTabClick()
+                    true
+                }
+                item.itemId == R.id.action_all_news -> {
+                    presenter.onAllNewsTabClick()
                     true
                 }
                 item.itemId == R.id.action_about -> {
@@ -115,16 +121,26 @@ class MainActivity :
         when (command) {
             is Replace -> {
                 when (command.screenKey) {
-                    Screens.NEWS_SCREEN -> {
+                    Screens.TOP_NEWS_SCREEN -> {
                         supportFragmentManager.beginTransaction()
                                 .detach(settingsFragment)
-                                .attach(newsFragment)
+                                .detach(allNewsFragment)
+                                .attach(topNewsFragment)
+                                .commitNow()
+                    }
+
+                    Screens.ALL_NEWS_SCREEN -> {
+                        supportFragmentManager.beginTransaction()
+                                .detach(topNewsFragment)
+                                .detach(settingsFragment)
+                                .attach(allNewsFragment)
                                 .commitNow()
                     }
 
                     Screens.SETTINGS_SCREEN -> {
                         supportFragmentManager.beginTransaction()
-                                .detach(newsFragment)
+                                .detach(topNewsFragment)
+                                .detach(allNewsFragment)
                                 .attach(settingsFragment)
                                 .commitNow()
                     }
@@ -136,12 +152,21 @@ class MainActivity :
     }
 
     private fun initFragments() {
-        newsFragment = supportFragmentManager.findFragmentByTag(Screens.NEWS_SCREEN) as NewsFragment?
-        if (newsFragment == null) {
-            newsFragment = NewsFragment()
+        topNewsFragment = supportFragmentManager.findFragmentByTag(Screens.TOP_NEWS_SCREEN) as TopNewsFragment?
+        if (topNewsFragment == null) {
+            topNewsFragment = TopNewsFragment()
             supportFragmentManager.beginTransaction()
-                    .add(R.id.mainContainerView, newsFragment, Screens.NEWS_SCREEN)
-                    .detach(newsFragment)
+                    .add(R.id.mainContainerView, topNewsFragment, Screens.TOP_NEWS_SCREEN)
+                    .detach(topNewsFragment)
+                    .commitNow()
+        }
+
+        allNewsFragment = supportFragmentManager.findFragmentByTag(Screens.ALL_NEWS_SCREEN) as AllNewsFragment?
+        if (allNewsFragment == null) {
+            allNewsFragment = AllNewsFragment()
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.mainContainerView, allNewsFragment, Screens.ALL_NEWS_SCREEN)
+                    .detach(allNewsFragment)
                     .commitNow()
         }
 

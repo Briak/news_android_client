@@ -1,9 +1,7 @@
 package com.briak.newsclient.ui.base
 
-import com.briak.newsclient.model.di.news.NewsRouter
-import ru.terrakok.cicerone.BaseRouter
-import ru.terrakok.cicerone.Router
+import com.briak.newsclient.model.di.topnews.TopNewsRouter
 
 interface RouterProvider {
-    fun getRouter(): NewsRouter
+    fun getRouter(): TopNewsRouter
 }

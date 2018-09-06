@@ -1,6 +1,7 @@
 package com.briak.newsclient.model.di.application
 
-import com.briak.newsclient.model.di.news.NewsComponent
+import com.briak.newsclient.model.di.allnews.AllNewsComponent
+import com.briak.newsclient.model.di.topnews.TopNewsComponent
 import com.briak.newsclient.presentation.about.AboutPresenter
 import com.briak.newsclient.presentation.categories.CategoriesPresenter
 import com.briak.newsclient.presentation.main.MainPresenter
@@ -15,7 +16,8 @@ import javax.inject.Singleton
 )
 @Singleton
 interface ApplicationComponent {
-    fun newsComponentBuilder(): NewsComponent.Builder
+    fun topNewsComponentBuilder(): TopNewsComponent.Builder
+    fun allNewsComponentBuilder(): AllNewsComponent.Builder
 
     fun inject(activity: MainActivity)
     fun inject(presenter: MainPresenter)

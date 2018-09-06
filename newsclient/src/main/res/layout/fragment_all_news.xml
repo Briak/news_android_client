@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/newsContainerView"
+    style="@style/Background">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/newsToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/newsToolbarTitleView"
+            style="@style/ToolbarTheme"
+            android:text="All articles"
+            app:layout_constraintEnd_toStartOf="@id/filterView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/calendarView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:contentDescription="TODO"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:src="@mipmap/ic_calendar"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <android.support.v7.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            app:closeIcon="@mipmap/ic_close_white"
+            app:defaultQueryHint="@string/search_articles"
+            app:layout_constraintEnd_toStartOf="@id/calendarView"
+            app:queryBackground="@drawable/background_search_view"
+            app:searchHintIcon="@mipmap/ic_search"
+            app:searchIcon="@mipmap/ic_search" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refreshNewsView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/newsToolbar">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/newsListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="@string/no_results"
+        android:textColor="@color/colorTextLight"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/newsToolbar" />
+
+    <include
+        android:id="@+id/newsProgressView"
+        layout="@layout/view_progress_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/newsToolbar" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@drawable/toolbar_shadow"
+        app:layout_constraintTop_toBottomOf="@id/newsToolbar" />
+
+</android.support.constraint.ConstraintLayout>

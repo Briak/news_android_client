@@ -1,19 +1,19 @@
-package com.briak.newsclient.model.domain.news
+package com.briak.newsclient.model.domain.topnews
 
 import com.briak.newsclient.entities.news.server.Article
 import com.briak.newsclient.model.data.categories.CategoriesHolder
-import com.briak.newsclient.model.di.news.NewsScope
+import com.briak.newsclient.model.di.topnews.TopNewsScope
 import com.briak.newsclient.model.repositories.news.NewsRepository
 import javax.inject.Inject
 
-@NewsScope
-class NewsInteractorImpl @Inject constructor(
+@TopNewsScope
+class TopNewsInteractorImpl @Inject constructor(
         private var repository: NewsRepository,
         private var categoriesHolder: CategoriesHolder
-) : NewsInteractor {
+) : TopNewsInteractor {
 
-    override suspend fun getTopNews(query: String?): List<Article> =
-            repository.getNews("us", query).await().articles
+    override suspend fun getTopNews(): List<Article> =
+            repository.getTopNews("us").await().articles
 
     override fun setCategory(category: String) {
         categoriesHolder.category = category

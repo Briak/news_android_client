@@ -13,8 +13,12 @@ class MainPresenter @Inject constructor(
         private val cicerone: Cicerone<Router>
 ) : MvpPresenter<MainView>() {
 
-    fun onNewsTabClick() {
-        cicerone.router.replaceScreen(Screens.NEWS_SCREEN)
+    fun onTopNewsTabClick() {
+        cicerone.router.replaceScreen(Screens.TOP_NEWS_SCREEN)
+    }
+
+    fun onAllNewsTabClick() {
+        cicerone.router.replaceScreen(Screens.ALL_NEWS_SCREEN)
     }
 
     fun onAboutTabClick() {
