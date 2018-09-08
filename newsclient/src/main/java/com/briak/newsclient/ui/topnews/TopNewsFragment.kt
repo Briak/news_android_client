@@ -29,6 +29,7 @@ import kotlinx.android.synthetic.main.fragment_top_news.*
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
+import ru.terrakok.cicerone.BaseRouter
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.android.SupportFragmentNavigator
@@ -108,7 +109,7 @@ class TopNewsFragment :
         super.onDestroy()
     }
 
-    override fun getRouter(): TopNewsRouter = newsCicerone.router
+    override fun getRouter(): BaseRouter = newsCicerone.router
 
     override fun showTopNews(articles: List<ArticleUI>) {
         val itemDecorator = DividerItemDecoration(context!!, DividerItemDecoration.VERTICAL)

@@ -11,8 +11,6 @@ import com.briak.newsclient.presentation.categories.CategoriesPresenter
 import com.briak.newsclient.presentation.categories.CategoriesView
 import com.briak.newsclient.presentation.topnews.TopNewsPresenter
 import com.briak.newsclient.presentation.topnews.TopNewsView
-import com.briak.newsclient.presentation.newsdetail.NewsDetailPresenter
-import com.briak.newsclient.presentation.newsdetail.NewsDetailView
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -31,10 +29,6 @@ abstract class TopNewsModule {
     @Binds
     @TopNewsScope
     abstract fun provideTopNewsPresenter(newsPresenter: TopNewsPresenter): MvpPresenter<TopNewsView>
-
-    @Binds
-    @TopNewsScope
-    abstract fun provideNewsDetailPresenter(newsDetailPresenter: NewsDetailPresenter): MvpPresenter<NewsDetailView>
 
     @Binds
     @TopNewsScope

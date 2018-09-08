@@ -26,6 +26,4 @@ interface NewsApi {
             @Query("domains") domain: String = "wsj.com,nytimes.com",
             @Query("apiKey") apiKey: String = API_KEY
     ): Deferred<RSS>
-
-
 }

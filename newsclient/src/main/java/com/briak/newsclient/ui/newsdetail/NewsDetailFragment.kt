@@ -12,20 +12,19 @@ import com.briak.newsclient.model.system.Parameters
 import com.briak.newsclient.presentation.newsdetail.NewsDetailPresenter
 import com.briak.newsclient.presentation.newsdetail.NewsDetailView
 import com.briak.newsclient.ui.base.BaseFragment
+import com.briak.newsclient.ui.base.RouterProvider
 import kotlinx.android.synthetic.main.fragment_news_detail.*
-import javax.inject.Inject
 
 
 class NewsDetailFragment :
         BaseFragment(),
         NewsDetailView {
 
-    @Inject
     @InjectPresenter
     lateinit var presenter: NewsDetailPresenter
 
     @ProvidePresenter
-    fun provideNewsDetailPresenter(): NewsDetailPresenter = presenter
+    fun provideNewsDetailPresenter(): NewsDetailPresenter = NewsDetailPresenter()
 
     override val layoutRes: Int = R.layout.fragment_news_detail
 
@@ -70,6 +69,8 @@ class NewsDetailFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        presenter.setRouter((parentFragment as RouterProvider).getRouter())
 
         newsDetailBackView.onClick {
             presenter.onBackPressed()

@@ -1,6 +1,7 @@
 package com.briak.newsclient.ui.allnews
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -14,27 +15,41 @@ import com.briak.newsclient.entities.news.presentation.ArticleUI
 import com.briak.newsclient.extensions.isNotNullOrEmpty
 import com.briak.newsclient.extensions.onClick
 import com.briak.newsclient.extensions.visible
+import com.briak.newsclient.model.di.allnews.AllNewsRouter
 import com.briak.newsclient.model.system.Screens
 import com.briak.newsclient.presentation.allnews.AllNewsPresenter
 import com.briak.newsclient.presentation.allnews.AllNewsView
+import com.briak.newsclient.ui.base.BackButtonListener
 import com.briak.newsclient.ui.base.BaseFragment
 import com.briak.newsclient.ui.base.ErrorDialogFragment
+import com.briak.newsclient.ui.base.RouterProvider
+import com.briak.newsclient.ui.main.MainActivity
+import com.briak.newsclient.ui.newsdetail.NewsDetailFragment
 import com.briak.newsclient.ui.topnews.NewsAdapter
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import kotlinx.android.synthetic.main.fragment_all_news.*
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
+import ru.terrakok.cicerone.BaseRouter
+import ru.terrakok.cicerone.Cicerone
+import ru.terrakok.cicerone.Navigator
+import ru.terrakok.cicerone.android.SupportFragmentNavigator
 import java.util.*
 import javax.inject.Inject
 
 class AllNewsFragment :
         BaseFragment(),
         AllNewsView,
+        BackButtonListener,
+        RouterProvider,
         NewsAdapter.OnNewsClickListener,
         DatePickerDialog.OnDateSetListener {
 
     override val layoutRes: Int = R.layout.fragment_all_news
+
+    @Inject
+    lateinit var allNewsCicerone: Cicerone<AllNewsRouter>
 
     @Inject
     @InjectPresenter
@@ -51,6 +66,8 @@ class AllNewsFragment :
         super.onCreate(savedInstanceState)
     }
 
+    override fun getRouter(): BaseRouter = allNewsCicerone.router
+
     override fun startNewsJob(refresh: Boolean, query: String?, date: String?) {
         newsJob = launch(UI) {
             presenter.getAllNews(refresh, query, date)
@@ -63,8 +80,26 @@ class AllNewsFragment :
         super.onDestroy()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        allNewsCicerone.navigatorHolder.setNavigator(getNavigator())
+    }
+
+    override fun onPause() {
+        allNewsCicerone.navigatorHolder.removeNavigator()
+
+        super.onPause()
+    }
+
+    override fun onBackPressed(): Boolean {
+        presenter.onBackPressed()
+
+        return true
+    }
+
     override fun onNewsClick(article: ArticleUI) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        presenter.onNewsClick(article)
     }
 
     override fun showAllNews(articles: List<ArticleUI>) {
@@ -162,6 +197,26 @@ class AllNewsFragment :
             )
             datePickerDialog.version = DatePickerDialog.Version.VERSION_2
             datePickerDialog.show(activity!!.fragmentManager, DatePickerDialog::class.java.name)
+        }
+    }
+
+    private fun getNavigator(): Navigator {
+        return object : SupportFragmentNavigator(childFragmentManager, R.id.allNewsContainerView) {
+            override fun exit() {
+                (activity as MainActivity).cicerone.router.exit()
+            }
+
+            override fun createFragment(screenKey: String?, data: Any?): Fragment? {
+                when (screenKey) {
+                    Screens.ALL_NEWS_DETAIL_SCREEN -> return NewsDetailFragment.getInstance(data as ArticleUI)
+                }
+
+                return this@AllNewsFragment
+            }
+
+            override fun showSystemMessage(message: String?) {
+
+            }
         }
     }
 }

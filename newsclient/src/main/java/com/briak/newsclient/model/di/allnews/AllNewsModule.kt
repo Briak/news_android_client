@@ -7,8 +7,6 @@ import com.briak.newsclient.model.repositories.news.NewsRepository
 import com.briak.newsclient.model.repositories.news.NewsRepositoryImpl
 import com.briak.newsclient.presentation.allnews.AllNewsPresenter
 import com.briak.newsclient.presentation.allnews.AllNewsView
-import com.briak.newsclient.presentation.newsdetail.NewsDetailPresenter
-import com.briak.newsclient.presentation.newsdetail.NewsDetailView
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -27,10 +25,6 @@ abstract class AllNewsModule {
     @Binds
     @AllNewsScope
     abstract fun provideAllNewsPresenter(newsPresenter: AllNewsPresenter): MvpPresenter<AllNewsView>
-
-    @Binds
-    @AllNewsScope
-    abstract fun provideNewsDetailPresenter(newsDetailPresenter: NewsDetailPresenter): MvpPresenter<NewsDetailView>
 
     @Module
     companion object {
