@@ -45,6 +45,8 @@ fun View.visible(visible: Boolean) {
 }
 
 fun Date.toShortDate(): String = SimpleDateFormat("EEE, MMMM d, yyyy", Locale("en_US")).format(this)
+fun Date.toServerDate(): String = SimpleDateFormat("yyyy-MM-dd", Locale("en_US")).format(this)
+fun Date.toUserDate(): String = SimpleDateFormat("MMMM d, yyyy", Locale("en_US")).format(this)
 
 fun String?.isNotNullOrEmpty(): Boolean = this != null && this.isNotEmpty()
 

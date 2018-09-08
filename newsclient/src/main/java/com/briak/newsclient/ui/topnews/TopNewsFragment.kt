@@ -45,8 +45,10 @@ class TopNewsFragment :
         RouterProvider,
         ResultListener {
 
+    override val layoutRes: Int = R.layout.fragment_top_news
+
     @Inject
-    lateinit var newsCicerone: Cicerone<TopNewsRouter>
+    lateinit var cicerone: Cicerone<TopNewsRouter>
 
     @Inject
     @InjectPresenter
@@ -57,50 +59,40 @@ class TopNewsFragment :
 
     private lateinit var newsJob: Job
 
-    override val layoutRes: Int = R.layout.fragment_top_news
-
     override fun onCreate(savedInstanceState: Bundle?) {
         NewsClientApplication.plusTopNewsComponent().inject(this)
 
         super.onCreate(savedInstanceState)
 
-        newsCicerone.router.setResultListener(1001, this)
+        cicerone.router.setResultListener(1001, this)
     }
 
-    override fun onResult(resultData: Any?) {
-        presenter.setCategory(activity!!.resources.getString((resultData as CategoryUI).getStringValue()))
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun setTitle(title: String) {
-        newsToolbarTitleView?.text = title
+        filterView?.onClick {
+            presenter.onFilterClick()
+        }
+
+        refreshNewsView?.apply {
+            setColorSchemeResources(R.color.colorAccent)
+
+            setOnRefreshListener {
+                presenter.refresh()
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
 
-        newsCicerone.navigatorHolder.setNavigator(getNavigator())
+        cicerone.navigatorHolder.setNavigator(getNavigator())
     }
 
     override fun onPause() {
-        newsCicerone.navigatorHolder.removeNavigator()
+        cicerone.navigatorHolder.removeNavigator()
 
         super.onPause()
-    }
-
-    override fun onBackPressed(): Boolean {
-        presenter.onBackPressed()
-
-        return true
-    }
-
-    override fun onNewsClick(article: ArticleUI) {
-        presenter.onNewsClick(article)
-    }
-
-    override fun startNewsJob(refresh: Boolean) {
-        newsJob = launch(UI) {
-            presenter.getTopNews(refresh)
-        }
     }
 
     override fun onDestroy() {
@@ -109,7 +101,9 @@ class TopNewsFragment :
         super.onDestroy()
     }
 
-    override fun getRouter(): BaseRouter = newsCicerone.router
+    override fun setTitle(title: String) {
+        newsToolbarTitleView?.text = title
+    }
 
     override fun showTopNews(articles: List<ArticleUI>) {
         val itemDecorator = DividerItemDecoration(context!!, DividerItemDecoration.VERTICAL)
@@ -121,13 +115,6 @@ class TopNewsFragment :
                 addItemDecoration(itemDecorator)
                 adapter = NewsAdapter(articles, this@TopNewsFragment)
             }
-        }
-    }
-
-    override fun showMessage(message: String) {
-        launch(UI) {
-            ErrorDialogFragment.getInstance(message).show(activity!!.supportFragmentManager, Screens.ERROR_DIALOG)
-            newsListView.visible(false)
         }
     }
 
@@ -143,25 +130,38 @@ class TopNewsFragment :
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        filterView?.onClick {
-            presenter.onFilterClick()
-        }
-
-        refreshNewsView?.apply {
-            setColorSchemeResources(R.color.colorAccent)
-
-            setOnRefreshListener {
-                startNewsJob(true)
-            }
-        }
-    }
-
     override fun showEmpty(show: Boolean) {
         emptyView.visible(show)
         newsListView.visible(!show)
+    }
+
+    override fun showMessage(message: String) {
+        launch(UI) {
+            ErrorDialogFragment.getInstance(message).show(activity!!.supportFragmentManager, Screens.ERROR_DIALOG)
+            newsListView.visible(false)
+        }
+    }
+
+    override fun startNewsJob() {
+        newsJob = launch(UI) {
+            presenter.getTopNews()
+        }
+    }
+
+    override fun onNewsClick(article: ArticleUI) {
+        presenter.onNewsClick(article)
+    }
+
+    override fun onBackPressed(): Boolean {
+        presenter.onBackPressed()
+
+        return true
+    }
+
+    override fun getRouter(): BaseRouter = cicerone.router
+
+    override fun onResult(resultData: Any?) {
+        presenter.setCategory(activity!!.resources.getString((resultData as CategoryUI).getStringValue()))
     }
 
     private fun getNavigator(): Navigator {

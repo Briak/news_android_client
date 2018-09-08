@@ -23,11 +23,13 @@ class TopNewsPresenter @Inject constructor(
         private val articleMapper: ArticleMapper
 ) : MvpPresenter<TopNewsView>() {
 
+    private var refresh: Boolean = false
+
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
 
         viewState.setTitle(topNewsInteractor.getCategory())
-        viewState.startNewsJob(false)
+        viewState.startNewsJob()
     }
 
     fun onNewsClick(news: ArticleUI) = topNewsCicerone.router.navigateTo(Screens.NEWS_DETAIL_SCREEN, news)
@@ -40,10 +42,15 @@ class TopNewsPresenter @Inject constructor(
         topNewsInteractor.setCategory(category)
         viewState.setTitle(topNewsInteractor.getCategory())
 
-        viewState.startNewsJob(false)
+        viewState.startNewsJob()
     }
 
-    suspend fun getTopNews(refresh: Boolean) {
+    fun refresh() {
+        refresh = true
+        viewState.startNewsJob()
+    }
+
+    suspend fun getTopNews() {
         viewState.showProgress(!refresh)
 
         try {
@@ -53,9 +60,13 @@ class TopNewsPresenter @Inject constructor(
                 viewState.showTopNews(articleMapper.map(articles))
                 viewState.showEmpty(articles.isEmpty())
                 viewState.showProgress(false)
+
+                refresh = false
             }
         } catch (e: Throwable) {
             viewState.showMessage(errorHandler.proceed(e))
+
+            refresh = false
         }
     }
 }

@@ -13,7 +13,6 @@
         <TextView
             android:id="@+id/newsToolbarTitleView"
             style="@style/ToolbarTheme"
-            android:text="All articles"
             app:layout_constraintEnd_toStartOf="@id/filterView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

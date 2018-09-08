@@ -49,7 +49,7 @@ class AllNewsFragment :
     override val layoutRes: Int = R.layout.fragment_all_news
 
     @Inject
-    lateinit var allNewsCicerone: Cicerone<AllNewsRouter>
+    lateinit var cicerone: Cicerone<AllNewsRouter>
 
     @Inject
     @InjectPresenter
@@ -66,11 +66,52 @@ class AllNewsFragment :
         super.onCreate(savedInstanceState)
     }
 
-    override fun getRouter(): BaseRouter = allNewsCicerone.router
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun startNewsJob(refresh: Boolean, query: String?, date: String?) {
-        newsJob = launch(UI) {
-            presenter.getAllNews(refresh, query, date)
+        searchView.apply {
+            setOnSearchClickListener {
+                newsToolbarTitleView.visibility = View.INVISIBLE
+            }
+
+            setOnCloseListener {
+                presenter.setQuery(null)
+                newsToolbarTitleView.visibility = View.VISIBLE
+
+                false
+            }
+
+
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    if (newText.isNotNullOrEmpty()) {
+                        if (newText!!.length >= 2) {
+                            presenter.setQuery(newText)
+                        } else if (newText.isNotEmpty()) {
+                            presenter.setQuery(null)
+                        }
+                    }
+
+                    return true
+                }
+
+            })
+        }
+
+        calendarView.onClick {
+            presenter.showCalendar()
+        }
+
+        refreshNewsView?.apply {
+            setColorSchemeResources(R.color.colorAccent)
+
+            setOnRefreshListener {
+                presenter.refresh()
+            }
         }
     }
 
@@ -83,23 +124,15 @@ class AllNewsFragment :
     override fun onResume() {
         super.onResume()
 
-        allNewsCicerone.navigatorHolder.setNavigator(getNavigator())
+        cicerone.navigatorHolder.setNavigator(getNavigator())
+
+        newsToolbarTitleView.visible(searchView.isIconified)
     }
 
     override fun onPause() {
-        allNewsCicerone.navigatorHolder.removeNavigator()
+        cicerone.navigatorHolder.removeNavigator()
 
         super.onPause()
-    }
-
-    override fun onBackPressed(): Boolean {
-        presenter.onBackPressed()
-
-        return true
-    }
-
-    override fun onNewsClick(article: ArticleUI) {
-        presenter.onNewsClick(article)
     }
 
     override fun showAllNews(articles: List<ArticleUI>) {
@@ -111,6 +144,18 @@ class AllNewsFragment :
                 layoutManager = LinearLayoutManager(activity)
                 addItemDecoration(itemDecorator)
                 adapter = NewsAdapter(articles, this@AllNewsFragment)
+            }
+        }
+    }
+
+    override fun showProgress(show: Boolean) {
+        launch(UI) {
+            newsProgressView?.visible(show)
+            newsListView?.visible(!show)
+            refreshNewsView?.isRefreshing = false
+
+            if (show) {
+                emptyView?.visible(false)
             }
         }
     }
@@ -127,77 +172,57 @@ class AllNewsFragment :
         }
     }
 
-    override fun showProgress(show: Boolean) {
-        launch(UI) {
-            newsProgressView?.visible(show)
-            newsListView?.visible(!show)
-            refreshNewsView?.isRefreshing = false
-
-            if (show) {
-                emptyView?.visible(false)
-            }
+    override fun startNewsJob() {
+        newsJob = launch(UI) {
+            presenter.getAllNews()
         }
+    }
+
+    override fun onBackPressed(): Boolean {
+        presenter.onBackPressed()
+
+        return true
+    }
+
+    override fun getRouter(): BaseRouter = cicerone.router
+
+    override fun onNewsClick(article: ArticleUI) {
+        presenter.onNewsClick(article)
     }
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        startNewsJob(
-                false,
-                searchView.query?.toString(),
-                formatDate(year, monthOfYear, dayOfMonth))
+        presenter.setCalendar(buildCalendar(year, monthOfYear, dayOfMonth))
     }
 
-    private fun formatDate(year: Int, monthOfYear: Int, dayOfMonth: Int): String =
-            String.format("%s-0%s-0%s", year.toString(), monthOfYear.toString(), dayOfMonth.toString())
+    override fun showCalendar(calendar: Calendar) {
+        val datePickerDialog = DatePickerDialog.newInstance(
+                this@AllNewsFragment,
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        )
 
-    private fun closeSearchView() {
-        searchView.setQuery("", false)
-        searchView.isIconified = true
+        datePickerDialog.apply {
+            version = DatePickerDialog.Version.VERSION_2
+            maxDate = calendar
+        }
+
+        datePickerDialog.show(activity!!.fragmentManager, DatePickerDialog::class.java.name)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun setTitle(title: String) {
+        newsToolbarTitleView.text = title
+    }
 
-        searchView.setOnSearchClickListener {
-            newsToolbarTitleView.visibility = View.INVISIBLE
+    private fun buildCalendar(year: Int, monthOfYear: Int, dayOfMonth: Int): Calendar {
+        val calendar = Calendar.getInstance()
+        calendar.apply {
+            set(Calendar.YEAR, year)
+            set(Calendar.MONTH, monthOfYear)
+            set(Calendar.DAY_OF_MONTH, dayOfMonth)
         }
 
-        searchView.setOnCloseListener {
-            startNewsJob(false, null, null)
-            newsToolbarTitleView.visibility = View.VISIBLE
-
-            false
-        }
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText.isNotNullOrEmpty()) {
-                    if (newText!!.length >= 2) {
-                        startNewsJob(false, newText, null)
-                    } else if (newText.isNotEmpty()) {
-                        startNewsJob(false, null, null)
-                    }
-                }
-
-                return true
-            }
-
-        })
-
-        calendarView.onClick {
-            val calendar = Calendar.getInstance()
-            val datePickerDialog = DatePickerDialog.newInstance(
-                    this@AllNewsFragment,
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH)
-            )
-            datePickerDialog.version = DatePickerDialog.Version.VERSION_2
-            datePickerDialog.show(activity!!.fragmentManager, DatePickerDialog::class.java.name)
-        }
+        return calendar
     }
 
     private fun getNavigator(): Navigator {

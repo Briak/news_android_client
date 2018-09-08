@@ -18,5 +18,5 @@ interface TopNewsView: MvpView {
     fun showMessage(message: String)
 
     @StateStrategyType(SkipStrategy::class)
-    fun startNewsJob(refresh: Boolean)
+    fun startNewsJob()
 }
