@@ -18,7 +18,7 @@ import org.mockito.MockitoAnnotations
 import ru.terrakok.cicerone.Cicerone
 
 
-class NewsPresenterTest {
+class TopNewsPresenterTest {
 
     @Mock
     lateinit var newsInteractor: TopNewsInteractor

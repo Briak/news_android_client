@@ -92,6 +92,6 @@ class AllNewsPresenter @Inject constructor(
         }
     }
 
-    private fun formatDate(): String =
-            calendar!!.time.toServerDate()
+    private fun formatDate(): String? =
+            calendar?.time?.toServerDate()
 }
