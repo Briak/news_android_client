@@ -18,7 +18,7 @@
             <ImageView
                 android:id="@+id/newsDetailBackView"
                 style="@style/BackButton"
-                android:contentDescription="TODO" />
+                android:contentDescription="@string/back" />
 
             <TextView
                 android:id="@+id/newsDetailToolbarTitle"
@@ -36,7 +36,7 @@
             android:id="@+id/iconView"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/icon"
             android:scaleType="centerCrop"
             app:layout_constraintTop_toBottomOf="@id/newsDetailToolbar" />
 

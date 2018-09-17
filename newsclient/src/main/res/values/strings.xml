@@ -15,6 +15,11 @@
     <string name="welcome">Welcome to the project for parsing RSS from https://newsapi.org</string>
     <string name="no_results">No results</string>
     <string name="search_articles">Search articles</string>
+    <string name="back">Back</string>
+    <string name="icon">Icon</string>
+    <string name="calendar">Calendar</string>
+    <string name="close">Close</string>
+    <string name="filter">Filter</string>
 
     <!--Error dialog-->
     <string name="ok">OK</string>

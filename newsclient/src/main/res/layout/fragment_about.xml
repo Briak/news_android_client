@@ -22,7 +22,8 @@
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_bananya_happy"
-        app:layout_constraintTop_toBottomOf="@id/settingsToolbar" />
+        app:layout_constraintTop_toBottomOf="@id/settingsToolbar"
+        android:contentDescription="@string/icon" />
 
     <TextView
         android:layout_width="match_parent"
