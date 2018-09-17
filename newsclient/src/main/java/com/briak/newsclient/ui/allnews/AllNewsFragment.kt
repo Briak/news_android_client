@@ -12,7 +12,6 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.briak.newsclient.NewsClientApplication
 import com.briak.newsclient.R
 import com.briak.newsclient.entities.news.presentation.ArticleUI
-import com.briak.newsclient.extensions.isNotNullOrEmpty
 import com.briak.newsclient.extensions.onClick
 import com.briak.newsclient.extensions.visible
 import com.briak.newsclient.model.di.allnews.AllNewsRouter
@@ -88,13 +87,7 @@ class AllNewsFragment :
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    if (newText.isNotNullOrEmpty()) {
-                        if (newText!!.length >= 2) {
-                            presenter.setQuery(newText)
-                        } else if (newText.isNotEmpty()) {
-                            presenter.setQuery(null)
-                        }
-                    }
+                    presenter.setSearchQuery(newText)
 
                     return true
                 }

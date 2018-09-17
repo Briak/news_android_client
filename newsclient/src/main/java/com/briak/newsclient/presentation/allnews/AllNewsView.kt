@@ -13,11 +13,13 @@ interface AllNewsView: MvpView {
     fun showAllNews(articles: List<ArticleUI>)
     fun showProgress(show: Boolean)
     fun showEmpty(show: Boolean)
-    fun showCalendar(calendar: Calendar)
     fun setTitle(title: String)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun showMessage(message: String)
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun showCalendar(calendar: Calendar)
 
     @StateStrategyType(SkipStrategy::class)
     fun startNewsJob()

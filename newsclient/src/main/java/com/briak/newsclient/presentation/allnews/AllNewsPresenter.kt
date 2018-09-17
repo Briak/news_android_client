@@ -5,6 +5,7 @@ import com.arellomobile.mvp.MvpPresenter
 import com.briak.newsclient.entities.mapper.ArticleMapper
 import com.briak.newsclient.entities.news.presentation.ArticleUI
 import com.briak.newsclient.extensions.backgroundPool
+import com.briak.newsclient.extensions.isNotNullOrEmpty
 import com.briak.newsclient.extensions.toServerDate
 import com.briak.newsclient.extensions.toUserDate
 import com.briak.newsclient.model.di.allnews.AllNewsRouter
@@ -47,6 +48,16 @@ class AllNewsPresenter @Inject constructor(
             this.calendar = calendar
             viewState.setTitle(calendar.time.toUserDate())
             viewState.startNewsJob()
+        }
+    }
+
+    fun setSearchQuery(query: String?) {
+        if (query.isNotNullOrEmpty()) {
+            if (query!!.length >= 2) {
+                setQuery(query)
+            } else if (query.isNotEmpty()) {
+                setQuery(null)
+            }
         }
     }
 
