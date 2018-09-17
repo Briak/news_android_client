@@ -3,10 +3,11 @@ package com.briak.newsclient.presentation.news
 import com.briak.newsclient.entities.mapper.ArticleMapper
 import com.briak.newsclient.entities.news.presentation.CategoryUI
 import com.briak.newsclient.entities.news.server.Article
-import com.briak.newsclient.model.di.topnews.AllNewsRouter
+import com.briak.newsclient.model.di.topnews.TopNewsRouter
 import com.briak.newsclient.model.domain.topnews.TopNewsInteractor
 import com.briak.newsclient.presentation.base.ErrorHandler
 import com.briak.newsclient.presentation.topnews.TopNewsPresenter
+import com.briak.newsclient.presentation.topnews.`TopNewsView$$State`
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.experimental.runBlocking
@@ -26,13 +27,13 @@ class NewsPresenterTest {
     lateinit var articleMapper: ArticleMapper
 
     @Mock
-    lateinit var newsCicerone: Cicerone<AllNewsRouter>
+    lateinit var newsCicerone: Cicerone<TopNewsRouter>
 
     @Mock
     lateinit var errorHandler: ErrorHandler
 
     @Mock
-    lateinit var newsViewState: `NewsView$$State`
+    lateinit var newsViewState: `TopNewsView$$State`
 
     private lateinit var newsPresenter: TopNewsPresenter
 
@@ -50,9 +51,9 @@ class NewsPresenterTest {
             val newsList = mutableListOf<Article>()
             newsList.add(Article())
 
-            whenever(newsInteractor.getTopNews(null)).thenReturn(newsList)
+            whenever(newsInteractor.getTopNews()).thenReturn(newsList)
 
-            newsPresenter.getTopNews(false, null)
+            newsPresenter.getTopNews()
 
             verify(newsViewState).showTopNews(articleMapper.map(newsList))
             verify(newsViewState).showProgress(false)
@@ -68,7 +69,7 @@ class NewsPresenterTest {
         newsPresenter.setCategory(category.name)
 
         verify(newsViewState).setTitle(newsInteractor.getCategory())
-        verify(newsViewState).startNewsJob(false, null)
+        verify(newsViewState).startNewsJob()
 
     }
 }
