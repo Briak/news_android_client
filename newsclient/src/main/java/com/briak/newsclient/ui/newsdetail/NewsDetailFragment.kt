@@ -64,7 +64,7 @@ class NewsDetailFragment :
             article = savedInstanceState.getSerializable(Parameters.ARTICLE) as ArticleUI
         }
 
-        setArticle(article)
+        presenter.setArticle(article)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,33 +77,43 @@ class NewsDetailFragment :
         }
     }
 
-    private fun setArticle(article: ArticleUI) {
-        newsDetailToolbarTitle.text = article.title
+    override fun setNewsDetailToolbarTitle(value: String) {
+        newsDetailToolbarTitle.text = value
+    }
 
-        iconView.loadImage(article.urlToImage, R.mipmap.ic_bananya_large, progressView, activity)
+    override fun loadImage(urlToImage: String?, iconId: Int) {
+        iconView.loadImage(urlToImage, iconId, progressView, activity)
+    }
 
-        if (article.author.isNotNullOrEmpty()) {
-            authorView.text = article.author
-        } else {
-            authorView.visibility = View.INVISIBLE
-        }
+    override fun setAuthor(value: String) {
+        authorView.text = value
+    }
 
-        if (article.publishedAt != null) {
-            publishedAtView.text = article.publishedAt!!.toShortDate()
-        } else {
-            publishedAtView.visible(false)
-        }
+    override fun hideAuthor() {
+        authorView.visibility = View.INVISIBLE
+    }
 
-        if (article.title.isNotNullOrEmpty()) {
-            titleView.text = article.title
-        } else {
-            titleView.visible(false)
-        }
+    override fun setPublishedAt(date: String) {
+        publishedAtView.text = date
+    }
 
-        if (article.description.isNotNullOrEmpty()) {
-            descriptionView.text = article.description
-        } else {
-            descriptionView.visible(false)
-        }
+    override fun hidePublishedAt() {
+        publishedAtView.visible(false)
+    }
+
+    override fun setTitle(title: String) {
+        titleView.text = title
+    }
+
+    override fun hideTitle() {
+        titleView.visible(false)
+    }
+
+    override fun setDescription(description: String) {
+        descriptionView.text = description
+    }
+
+    override fun hideDescription() {
+        descriptionView.visible(false)
     }
 }
