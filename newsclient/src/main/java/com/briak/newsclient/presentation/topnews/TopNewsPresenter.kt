@@ -4,12 +4,12 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.briak.newsclient.entities.mapper.ArticleMapper
 import com.briak.newsclient.entities.news.presentation.ArticleUI
-import com.briak.newsclient.extensions.backgroundPool
 import com.briak.newsclient.model.di.topnews.TopNewsRouter
 import com.briak.newsclient.model.di.topnews.TopNewsScope
 import com.briak.newsclient.model.domain.topnews.TopNewsInteractor
 import com.briak.newsclient.model.system.Screens
 import com.briak.newsclient.presentation.base.ErrorHandler
+import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.withContext
 import ru.terrakok.cicerone.Cicerone
 import javax.inject.Inject
@@ -54,7 +54,7 @@ class TopNewsPresenter @Inject constructor(
         viewState.showProgress(!refresh)
 
         try {
-            withContext(backgroundPool) {
+            withContext(CommonPool) {
                 topNewsInteractor.getTopNews()
             }.let { articles ->
                 viewState.showTopNews(articleMapper.map(articles))

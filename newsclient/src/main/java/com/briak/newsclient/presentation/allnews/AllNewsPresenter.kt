@@ -4,7 +4,6 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.briak.newsclient.entities.mapper.ArticleMapper
 import com.briak.newsclient.entities.news.presentation.ArticleUI
-import com.briak.newsclient.extensions.backgroundPool
 import com.briak.newsclient.extensions.isNotNullOrEmpty
 import com.briak.newsclient.extensions.toServerDate
 import com.briak.newsclient.extensions.toUserDate
@@ -12,6 +11,7 @@ import com.briak.newsclient.model.di.allnews.AllNewsRouter
 import com.briak.newsclient.model.domain.allnews.AllNewsInteractor
 import com.briak.newsclient.model.system.Screens
 import com.briak.newsclient.presentation.base.ErrorHandler
+import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.withContext
 import ru.terrakok.cicerone.Cicerone
 import java.util.*
@@ -77,7 +77,7 @@ class AllNewsPresenter @Inject constructor(
         viewState.showProgress(!refresh)
 
         try {
-            withContext(backgroundPool) {
+            withContext(CommonPool) {
                 allNewsInteractor.getAllNews(query, formatDate())
             }.let { articles ->
                 viewState.showAllNews(articleMapper.map(articles))

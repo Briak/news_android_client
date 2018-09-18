@@ -57,7 +57,7 @@ class AllNewsFragment :
     @ProvidePresenter
     fun provideNewsPresenter(): AllNewsPresenter = presenter
 
-    private lateinit var newsJob: Job
+    private var newsJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         NewsClientApplication.plusAllNewsComponent().inject(this)
@@ -109,7 +109,7 @@ class AllNewsFragment :
     }
 
     override fun onDestroy() {
-        newsJob.cancel()
+        newsJob?.cancel()
 
         super.onDestroy()
     }
