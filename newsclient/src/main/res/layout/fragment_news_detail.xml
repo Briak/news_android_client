@@ -1,127 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/Background"
-    android:overScrollMode="never"
-    android:scrollbars="none">
+    style="@style/Background">
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/newsDetailToolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/newsDetailToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@color/colorPrimary">
-
-            <ImageView
-                android:id="@+id/newsDetailBackView"
-                style="@style/BackButton"
-                android:contentDescription="@string/back" />
-
-            <TextView
-                android:id="@+id/newsDetailToolbarTitle"
-                style="@style/ToolbarTheme"
-                android:layout_marginEnd="16dp"
-                android:ellipsize="end"
-                android:lines="1"
-                android:maxLines="1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/newsDetailBackView"
-                app:layout_constraintTop_toTopOf="parent" />
-        </android.support.constraint.ConstraintLayout>
+        android:layout_height="56dp"
+        android:background="@color/colorPrimary">
 
         <ImageView
-            android:id="@+id/iconView"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:contentDescription="@string/icon"
-            android:scaleType="centerCrop"
-            app:layout_constraintTop_toBottomOf="@id/newsDetailToolbar" />
-
-        <com.wang.avi.AVLoadingIndicatorView
-            android:id="@+id/progressView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/shadowView"
-            android:visibility="invisible"
-            app:indicatorColor="@color/colorAccent"
-            app:indicatorName="BallClipRotateIndicator"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/newsDetailToolbar" />
+            android:id="@+id/newsDetailBackView"
+            style="@style/BackButton"
+            android:contentDescription="@string/back" />
 
         <TextView
-            android:id="@+id/authorView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="26dp"
-            android:drawablePadding="5dp"
-            android:drawableStart="@mipmap/ic_user"
-            android:drawableTint="@color/colorAccent"
-            android:textColor="@color/colorTextLight"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@id/publishedAtView"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iconView" />
-
-        <TextView
-            android:id="@+id/publishedAtView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:id="@+id/newsDetailToolbarTitle"
+            style="@style/ToolbarTheme"
             android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="26dp"
-            android:gravity="end"
-            android:textColor="@color/colorTextDate"
-            android:textSize="14sp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxLines="1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@id/authorView"
-            app:layout_constraintTop_toBottomOf="@id/iconView" />
-
-        <TextView
-            android:id="@+id/titleView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/colorText"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/authorView" />
-
-        <TextView
-            android:id="@+id/descriptionView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/colorText"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleView" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:background="@drawable/toolbar_shadow"
-            app:layout_constraintTop_toBottomOf="@id/newsDetailToolbar" />
-
-        <View
-            android:id="@+id/shadowView"
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:background="@drawable/toolbar_shadow"
-            app:layout_constraintTop_toBottomOf="@id/iconView" />
+            app:layout_constraintStart_toEndOf="@id/newsDetailBackView"
+            app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
-</ScrollView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/newsDetailToolbar"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="1">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iconView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:contentDescription="@string/icon"
+                android:scaleType="centerCrop" />
+
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/progressView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:visibility="invisible"
+                app:indicatorColor="@color/colorAccent"
+                app:indicatorName="BallClipRotateIndicator"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/authorView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="26dp"
+                android:drawablePadding="5dp"
+                android:drawableStart="@mipmap/ic_user"
+                android:drawableTint="@color/colorAccent"
+                android:textColor="@color/colorTextLight"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@id/publishedAtView"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iconView" />
+
+            <TextView
+                android:id="@+id/publishedAtView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="26dp"
+                android:gravity="end"
+                android:textColor="@color/colorTextDate"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/authorView"
+                app:layout_constraintTop_toBottomOf="@id/iconView" />
+
+            <TextView
+                android:id="@+id/titleView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/colorText"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/authorView" />
+
+            <TextView
+                android:id="@+id/descriptionView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/colorText"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/titleView" />
+
+            <View
+                android:id="@+id/shadowView"
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:background="@drawable/toolbar_shadow"
+                app:layout_constraintTop_toBottomOf="@id/iconView" />
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@drawable/toolbar_shadow"
+        app:layout_constraintTop_toBottomOf="@id/newsDetailToolbar" />
+</android.support.constraint.ConstraintLayout>
