@@ -145,7 +145,6 @@ class TopNewsFragment :
     override fun startNewsJob() {
         newsJob = launch(UI) {
             presenter.getTopNews()
-            newsJob?.join()
         }
     }
 

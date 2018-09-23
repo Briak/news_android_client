@@ -49,7 +49,7 @@ class NetworkModule {
 
         val trustManagers = trustManagerFactory.trustManagers
         val x509TrustManager = trustManagers[0] as X509TrustManager
-        
+
         val sslContext = SSLContext.getInstance("SSL")
         sslContext.init(null, arrayOf<TrustManager>(x509TrustManager), null)
         val sslSocketFactory = sslContext.socketFactory
