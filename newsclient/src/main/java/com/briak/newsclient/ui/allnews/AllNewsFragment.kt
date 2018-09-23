@@ -168,6 +168,7 @@ class AllNewsFragment :
     override fun startNewsJob() {
         newsJob = launch(UI) {
             presenter.getAllNews()
+            newsJob?.join()
         }
     }
 
