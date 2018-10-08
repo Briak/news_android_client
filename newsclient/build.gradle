@@ -44,7 +44,7 @@ dependencies {
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-alpha04"
 
     //MVP Moxy
-    implementation 'com.arello-mobile:moxy-app-compat:1.5.3'
+    implementation 'com.arello-mobile:moxy-app-compat:1.5.5'
     kapt 'com.arello-mobile:moxy-compiler:1.5.3'
 
     //Coroutines
