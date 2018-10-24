@@ -165,12 +165,6 @@ class AllNewsFragment :
         }
     }
 
-    override fun startNewsJob() {
-        newsJob = launch(UI) {
-            presenter.getAllNews()
-        }
-    }
-
     override fun onBackPressed(): Boolean {
         presenter.onBackPressed()
 

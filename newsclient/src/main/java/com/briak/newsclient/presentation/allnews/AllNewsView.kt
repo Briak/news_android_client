@@ -20,7 +20,4 @@ interface AllNewsView: MvpView {
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun showCalendar(calendar: Calendar)
-
-    @StateStrategyType(SkipStrategy::class)
-    fun startNewsJob()
 }

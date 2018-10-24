@@ -9,8 +9,8 @@ import java.nio.charset.Charset
 import javax.inject.Inject
 
 open class ErrorHandler @Inject constructor(private val resourceManager: ResourceManager) {
-    fun proceed(error: Throwable): String {
-        if (error is HttpException) {
+    fun proceed(error: Throwable, messageListener: (String) -> Unit = {}) {
+        return if (error is HttpException) {
             val code = error.code()
             if (code == 400 || code == 401 || code == 429 || code == 500) {
                 val moshi = Moshi.Builder().build()
@@ -18,12 +18,12 @@ open class ErrorHandler @Inject constructor(private val resourceManager: Resourc
                 val errorResponse = jsonAdapter.fromJson(String(
                         error.response().errorBody()!!.source().readByteArray(),
                         Charset.defaultCharset()))
-                return errorResponse.message
+                messageListener(errorResponse.message)
             } else {
-                return error.userMessage(resourceManager)
+                messageListener(error.userMessage(resourceManager))
             }
         } else {
-            return error.userMessage(resourceManager)
+            messageListener(error.userMessage(resourceManager))
         }
     }
 }

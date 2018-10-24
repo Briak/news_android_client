@@ -1,7 +1,8 @@
 package com.briak.newsclient.model.domain.allnews
 
-import com.briak.newsclient.entities.news.server.Article
+import com.briak.newsclient.entities.news.server.RSS
+import io.reactivex.Single
 
 interface AllNewsInteractor {
-    suspend fun getAllNews(query: String?, date: String?): List<Article>
+    fun getAllNews(query: String?, date: String?): Single<RSS>
 }

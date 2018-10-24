@@ -1,6 +1,7 @@
 package com.briak.newsclient.model.data.server
 
 import com.briak.newsclient.entities.news.server.RSS
+import io.reactivex.Single
 import kotlinx.coroutines.experimental.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -16,7 +17,7 @@ interface NewsApi {
             @Query("country") country: String,
             @Query("category") category: String,
             @Query("apiKey") apiKey: String = API_KEY
-    ): Deferred<RSS>
+    ): Single<RSS>
 
     @GET("$API_PATH/everything")
     fun getEverything(
@@ -25,5 +26,5 @@ interface NewsApi {
             @Query("to") toDate: String?,
             @Query("domains") domain: String = "wsj.com,nytimes.com",
             @Query("apiKey") apiKey: String = API_KEY
-    ): Deferred<RSS>
+    ): Single<RSS>
 }

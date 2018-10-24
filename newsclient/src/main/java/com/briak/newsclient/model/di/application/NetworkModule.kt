@@ -19,6 +19,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import com.briak.newsclient.R
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import java.security.KeyStore
 import java.security.cert.CertificateFactory
 import javax.net.ssl.SSLContext
@@ -83,6 +84,7 @@ class NetworkModule {
     ): Retrofit =
             with(Retrofit.Builder()) {
                 addCallAdapterFactory(CoroutineCallAdapterFactory())
+                addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 addConverterFactory(MoshiConverterFactory.create(moshi))
                 client(okHttpClient)
                 baseUrl("https://newsapi.org")

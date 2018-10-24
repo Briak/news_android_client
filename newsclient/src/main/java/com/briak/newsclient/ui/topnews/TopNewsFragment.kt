@@ -142,12 +142,6 @@ class TopNewsFragment :
         }
     }
 
-    override fun startNewsJob() {
-        newsJob = launch(UI) {
-            presenter.getTopNews()
-        }
-    }
-
     override fun onNewsClick(article: ArticleUI) {
         presenter.onNewsClick(article)
     }

@@ -1,7 +1,6 @@
 package com.briak.newsclient.presentation.allnews
 
 import com.arellomobile.mvp.InjectViewState
-import com.arellomobile.mvp.MvpPresenter
 import com.briak.newsclient.entities.mapper.ArticleMapper
 import com.briak.newsclient.entities.news.presentation.ArticleUI
 import com.briak.newsclient.extensions.isNotNullOrEmpty
@@ -10,9 +9,8 @@ import com.briak.newsclient.extensions.toUserDate
 import com.briak.newsclient.model.di.allnews.AllNewsRouter
 import com.briak.newsclient.model.domain.allnews.AllNewsInteractor
 import com.briak.newsclient.model.system.Screens
+import com.briak.newsclient.presentation.base.BasePresenter
 import com.briak.newsclient.presentation.base.ErrorHandler
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.withContext
 import ru.terrakok.cicerone.Cicerone
 import java.util.*
 import javax.inject.Inject
@@ -23,7 +21,7 @@ class AllNewsPresenter @Inject constructor(
         private var allNewsCicerone: Cicerone<AllNewsRouter>,
         private val errorHandler: ErrorHandler,
         private val articleMapper: ArticleMapper
-) : MvpPresenter<AllNewsView>() {
+) : BasePresenter<AllNewsView>() {
 
     private var calendar: Calendar? = null
     private var query: String? = null
@@ -47,7 +45,7 @@ class AllNewsPresenter @Inject constructor(
         if (this.calendar != calendar) {
             this.calendar = calendar
             viewState.setTitle(calendar.time.toUserDate())
-            viewState.startNewsJob()
+            getAllNews()
         }
     }
 
@@ -64,32 +62,34 @@ class AllNewsPresenter @Inject constructor(
     fun setQuery(query: String?) {
         if (this.query != query) {
             this.query = query
-            viewState.startNewsJob()
+            getAllNews()
         }
     }
 
     fun refresh() {
         refresh = true
-        viewState.startNewsJob()
+        getAllNews()
     }
 
-    suspend fun getAllNews() {
-        viewState.showProgress(!refresh)
+    fun getAllNews() {
+        allNewsInteractor
+                .getAllNews(query, formatDate())
+                .doOnSubscribe { viewState.showProgress(!refresh) }
+                .doAfterTerminate {
+                    viewState.showProgress(false)
+                    refresh = false
+                }
+                .subscribe(
+                        { rss ->
+                            viewState.showAllNews(articleMapper.map(rss.articles))
+                            viewState.showEmpty(rss.articles.isEmpty())
 
-        try {
-            withContext(CommonPool) {
-                allNewsInteractor.getAllNews(query, formatDate())
-            }.let { articles ->
-                viewState.showAllNews(articleMapper.map(articles))
-                viewState.showEmpty(articles.isEmpty())
-                viewState.showProgress(false)
-
-                refresh = false
-            }
-        } catch (e: Throwable) {
-            viewState.showMessage(errorHandler.proceed(e))
-            refresh = false
-        }
+                        },
+                        { message ->
+                            errorHandler.proceed(message) { viewState.showMessage(it) }
+                        }
+                )
+                .connect()
     }
 
     private fun formatDate(): String? =
